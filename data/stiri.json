@@ -8,9 +8,12 @@
     "data": "2026-06-27",
     "autor": "Echipa AFA",
     "principal": true,
+    "status": "publicat",
+    "vizualizari": 1240,
     "foto": null,
     "youtube": null,
-    "facebook": null
+    "facebook": null,
+    "galerie": []
   },
   {
     "id": 2,
@@ -21,9 +24,12 @@
     "data": "2026-06-25",
     "autor": "Echipa AFA",
     "principal": false,
+    "status": "publicat",
+    "vizualizari": 870,
     "foto": null,
     "youtube": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    "facebook": null
+    "facebook": null,
+    "galerie": []
   },
   {
     "id": 3,
@@ -34,9 +40,12 @@
     "data": "2026-06-20",
     "autor": "Echipa AFA",
     "principal": false,
+    "status": "publicat",
+    "vizualizari": 450,
     "foto": null,
     "youtube": null,
-    "facebook": null
+    "facebook": null,
+    "galerie": []
   },
   {
     "id": 4,
@@ -47,9 +56,12 @@
     "data": "2026-06-10",
     "autor": "Echipa AFA",
     "principal": false,
+    "status": "publicat",
+    "vizualizari": 320,
     "foto": null,
     "youtube": null,
-    "facebook": null
+    "facebook": null,
+    "galerie": []
   },
   {
     "id": 5,
@@ -60,9 +72,12 @@
     "data": "2026-06-05",
     "autor": "Echipa AFA",
     "principal": false,
+    "status": "publicat",
+    "vizualizari": 610,
     "foto": null,
     "youtube": null,
-    "facebook": null
+    "facebook": null,
+    "galerie": []
   },
   {
     "id": 6,
@@ -73,8 +88,11 @@
     "data": "2026-05-28",
     "autor": "Echipa AFA",
     "principal": false,
+    "status": "publicat",
+    "vizualizari": 195,
     "foto": null,
     "youtube": null,
-    "facebook": null
+    "facebook": null,
+    "galerie": []
   }
 ]

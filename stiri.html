@@ -592,8 +592,10 @@ async function incarcaStiri() {
       if (r.ok) { stiri = await r.json(); break; }
     } catch(e) {}
   }
-  TOATE_STIRILE  = stiri;
-  STIRI_FILTRATE = [...stiri];
+  // afiseaza doar stirile publicate (exclude 'nepublicat')
+  const stiriPublice = stiri.filter(s => !s.status || s.status !== 'nepublicat');
+  TOATE_STIRILE  = stiriPublice;
+  STIRI_FILTRATE = [...stiriPublice];
   randeazaPagina();
 }
 
