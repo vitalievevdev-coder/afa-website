@@ -571,7 +571,6 @@
           <table>
             <thead>
               <tr>
-                <th style="width:56px;"></th>
                 <th>Titlu</th>
                 <th>Categorie</th>
                 <th>Data</th>
@@ -621,7 +620,6 @@
           <table>
             <thead>
               <tr>
-                <th class="td-foto"></th>
                 <th>Titlu</th>
                 <th>Categorie</th>
                 <th>Data Creării</th>
@@ -1058,12 +1056,7 @@ function aplicaFiltre() {
 function randTabel(s, eDash) {
   const status = s.status || 'publicat';
   const viz    = s.vizualizari ? Number(s.vizualizari).toLocaleString('ro-RO') : '0';
-  const fotoHtml = s.foto
-    ? `<img src="${s.foto}" class="stire-thumb" alt=""/>`
-    : `<div class="stire-thumb-placeholder" style="background:${culoareBg(s.categorie)};">📰</div>`;
-
   return `<tr>
-    <td class="td-foto">${fotoHtml}</td>
     <td class="td-titlu">
       <strong>${s.titlu}</strong>
       ${s.principal ? '<span class="principal-badge">★ Principal</span>' : ''}
