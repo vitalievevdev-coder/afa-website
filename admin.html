@@ -4,6 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin — Anti-Fraud Alliance</title>
+  <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.7/quill.snow.css"/>
   <style>
     :root {
       --albastru: #0a2342;
@@ -325,6 +326,31 @@
     }
     .camp input:focus, .camp select:focus, .camp textarea:focus { border-color:var(--auriu); }
     .camp textarea { height:160px; resize:vertical; line-height:1.6; }
+
+    /* QUILL EDITOR */
+    .ql-container { font-family:'Segoe UI',Arial,sans-serif; font-size:15px; border-radius:0 0 8px 8px; min-height:260px; }
+    .ql-toolbar { border-radius:8px 8px 0 0; border:1.5px solid #e0e0e0 !important; background:#fafafa; }
+    .ql-container { border:1.5px solid #e0e0e0 !important; border-top:none !important; }
+    .ql-editor { min-height:240px; line-height:1.7; }
+    .ql-editor:focus { outline:none; }
+    .ql-container.ql-snow:focus-within { border-color:var(--auriu) !important; }
+    .ql-toolbar.ql-snow:focus-within + .ql-container { border-color:var(--auriu) !important; }
+    .ql-snow .ql-picker { color:var(--albastru); }
+    .ql-snow .ql-stroke { stroke:var(--albastru); }
+    .ql-snow .ql-fill { fill:var(--albastru); }
+    .btn-yt-embed, .btn-fb-embed {
+      padding:5px 12px; border-radius:6px; border:none;
+      font-size:12px; font-weight:700; cursor:pointer;
+      font-family:inherit; margin-left:4px;
+    }
+    .btn-yt-embed  { background:#ffebee; color:#c62828; }
+    .btn-yt-embed:hover  { background:#c62828; color:#fff; }
+    .btn-fb-embed  { background:#e3f2fd; color:#1565c0; }
+    .btn-fb-embed:hover  { background:#1565c0; color:#fff; }
+    .embed-bara {
+      display:flex; gap:8px; align-items:center;
+      padding:8px 0 4px; flex-wrap:wrap;
+    }
     .camp .ajutor { font-size:11px; color:#bbb; margin-top:5px; }
 
     /* STATUS TOGGLE */
@@ -742,8 +768,15 @@
         <div class="form-section">
           <div class="form-section-title">📄 Conținut</div>
           <div class="camp">
-            <label>Conținut / Rezumat *</label>
-            <textarea id="s-continut" placeholder="Scrie conținutul știrii sau un rezumat (2-4 propoziții)..."></textarea>
+            <label>Conținut *</label>
+            <div class="embed-bara">
+              <span style="font-size:12px;color:#999;font-weight:600;">Inserează video:</span>
+              <button type="button" class="btn-yt-embed" onclick="insereazaYoutube()">▶ YouTube</button>
+              <button type="button" class="btn-fb-embed" onclick="insereazaFacebook()">▶ Facebook</button>
+              <span style="font-size:12px;color:#bbb;margin-left:4px;">sau folosește bara de instrumente de mai jos</span>
+            </div>
+            <div id="editor-continut"></div>
+            <textarea id="s-continut" style="display:none;"></textarea>
           </div>
         </div>
 
@@ -943,7 +976,7 @@ function deschideFormularNou(linkEl) {
 function resetFormular() {
   document.getElementById('s-id').value        = '';
   document.getElementById('s-titlu').value     = '';
-  document.getElementById('s-continut').value  = '';
+  setEditorContent('');
   document.getElementById('s-categorie').value = 'alerta';
   document.getElementById('s-data').value      = dateTimeAcum();
   document.getElementById('s-autor').value     = 'Echipa AFA';
@@ -1238,7 +1271,7 @@ function editeaza(id) {
   document.getElementById('form-sub').textContent   = 'Modifică și salvează modificările';
   document.getElementById('s-id').value        = s.id;
   document.getElementById('s-titlu').value     = s.titlu;
-  document.getElementById('s-continut').value  = s.continut;
+  setEditorContent(s.continut || '');
   document.getElementById('s-categorie').value = s.categorie;
   document.getElementById('s-data').value      = s.data || dateTimeAcum();
   document.getElementById('s-autor').value     = s.autor || 'Echipa AFA';
@@ -1291,7 +1324,7 @@ async function sterge(id) {
 // ====================== PREVIZUALIZARE ======================
 function previzualizeazaStire() {
   const titlu    = document.getElementById('s-titlu').value.trim();
-  const continut = document.getElementById('s-continut').value.trim();
+  const continut = getEditorContent();
   const categorie= document.getElementById('s-categorie').value;
   const data     = document.getElementById('s-data').value;
   const autor    = document.getElementById('s-autor').value.trim() || 'Echipa AFA';
@@ -1323,7 +1356,7 @@ function previzualizeazaStire() {
       <span class="badge">${catMap[categorie] || categorie}</span>
       <h1>${titlu || '(fără titlu)'}</h1>
       <div class="meta">📅 ${dataPretty} &nbsp;|&nbsp; ✍️ ${autor}</div>
-      <p>${continut ? continut.replace(/\n/g,'<br/>') : '(fără conținut)'}</p>
+      <div class="ql-content" style="font-size:15px;line-height:1.8;color:#444;">${continut || '(fără conținut)'}</div>
     </div>
   </body></html>`;
 
@@ -1335,7 +1368,7 @@ function previzualizeazaStire() {
 // ====================== SALVEAZA + PUBLICA ======================
 async function salveazaSiPublica() {
   const titlu     = document.getElementById('s-titlu').value.trim();
-  const continut  = document.getElementById('s-continut').value.trim();
+  const continut  = getEditorContent();
   const categorie = document.getElementById('s-categorie').value;
   const data      = document.getElementById('s-data').value;
   const autor     = document.getElementById('s-autor').value.trim() || 'Echipa AFA';
@@ -1531,6 +1564,69 @@ function notif(msg, tip) {
   el.textContent = msg;
   el.className = `notif ${tip} arata`;
   setTimeout(() => el.classList.remove('arata'), 3500);
+}
+</script>
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+<script>
+// ===== QUILL EDITOR =====
+let quill = null;
+
+function initQuill() {
+  if (quill) return;
+  quill = new Quill('#editor-continut', {
+    theme: 'snow',
+    placeholder: 'Scrie conținutul știrii aici... Poți formata textul, adăuga imagini și linkuri.',
+    modules: {
+      toolbar: [
+        [{ 'header': [1, 2, 3, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'align': [] }],
+        ['blockquote'],
+        ['link', 'image', 'video'],
+        ['clean']
+      ]
+    }
+  });
+}
+
+// initializeaza editorul cand pagina se incarca
+document.addEventListener('DOMContentLoaded', () => { initQuill(); });
+// fallback daca DOMContentLoaded a trecut deja
+if (document.readyState !== 'loading') initQuill();
+
+function getEditorContent() {
+  if (!quill) return document.getElementById('s-continut').value;
+  const html = quill.root.innerHTML;
+  return html === '<p><br></p>' ? '' : html;
+}
+
+function setEditorContent(html) {
+  if (!quill) { document.getElementById('s-continut').value = html; return; }
+  quill.root.innerHTML = html || '';
+}
+
+function insereazaYoutube() {
+  const url = prompt('Introdu link-ul YouTube:');
+  if (!url) return;
+  const m = url.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/);
+  if (!m) { alert('Link YouTube invalid!'); return; }
+  const embedUrl = `https://www.youtube.com/embed/${m[1]}`;
+  if (!quill) return;
+  const range = quill.getSelection(true);
+  quill.insertEmbed(range.index, 'video', embedUrl);
+  quill.setSelection(range.index + 1);
+}
+
+function insereazaFacebook() {
+  const url = prompt('Introdu link-ul video Facebook:');
+  if (!url) return;
+  const embedUrl = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&width=560&show_text=false`;
+  if (!quill) return;
+  const range = quill.getSelection(true);
+  quill.insertEmbed(range.index, 'video', embedUrl);
+  quill.setSelection(range.index + 1);
 }
 </script>
 </body>
