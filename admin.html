@@ -309,6 +309,7 @@
     }
     .form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
     .form-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; }
+    .form-row-4 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:18px; }
 
     .camp { margin-bottom:16px; }
     .camp:last-child { margin-bottom:0; }
@@ -656,7 +657,7 @@
             <label>Titlul știrii *</label>
             <input type="text" id="s-titlu" placeholder="Ex: Alertă — Nouă schemă de phishing vizează clienții băncilor"/>
           </div>
-          <div class="form-row-3">
+          <div class="form-row-4">
             <div class="camp">
               <label>Categorie *</label>
               <select id="s-categorie">
@@ -670,6 +671,10 @@
             <div class="camp">
               <label>Data publicării *</label>
               <input type="date" id="s-data"/>
+            </div>
+            <div class="camp">
+              <label>Ora publicării</label>
+              <input type="time" id="s-ora"/>
             </div>
             <div class="camp">
               <label>Autor</label>
@@ -871,6 +876,7 @@ let galerieFisiere = []; // fisiere galerie selectate
 // ====================== INIT ======================
 window.onload = () => {
   document.getElementById('s-data').value = azi();
+  document.getElementById('s-ora').value  = oraAcum();
   document.getElementById('inp-parola').addEventListener('keypress', e => {
     if (e.key === 'Enter') autentificare();
   });
@@ -937,6 +943,7 @@ function resetFormular() {
   document.getElementById('s-continut').value  = '';
   document.getElementById('s-categorie').value = 'alerta';
   document.getElementById('s-data').value      = azi();
+  document.getElementById('s-ora').value       = oraAcum();
   document.getElementById('s-autor').value     = 'Echipa AFA';
   document.getElementById('s-principal').checked = false;
   document.getElementById('s-youtube').value   = '';
@@ -1232,6 +1239,7 @@ function editeaza(id) {
   document.getElementById('s-continut').value  = s.continut;
   document.getElementById('s-categorie').value = s.categorie;
   document.getElementById('s-data').value      = s.data;
+  document.getElementById('s-ora').value       = s.ora || '';
   document.getElementById('s-autor').value     = s.autor || 'Echipa AFA';
   document.getElementById('s-principal').checked = s.principal;
   document.getElementById('s-youtube').value   = s.youtube || '';
@@ -1285,6 +1293,7 @@ async function salveazaSiPublica() {
   const continut  = document.getElementById('s-continut').value.trim();
   const categorie = document.getElementById('s-categorie').value;
   const data      = document.getElementById('s-data').value;
+  const ora       = document.getElementById('s-ora').value;
   const autor     = document.getElementById('s-autor').value.trim() || 'Echipa AFA';
   const principal = document.getElementById('s-principal').checked;
   const youtube   = document.getElementById('s-youtube').value.trim();
@@ -1326,7 +1335,7 @@ async function salveazaSiPublica() {
   if (principal) stiriDate.forEach(s => s.principal = false);
 
   const obj = {
-    titlu, continut, categorie, data, autor, principal, status,
+    titlu, continut, categorie, data, ora: ora || null, autor, principal, status,
     vizualizari,
     foto: foto || null,
     youtube: youtube || null,
@@ -1447,6 +1456,11 @@ function inchideModal() {
 // ====================== HELPERS ======================
 function azi() {
   return new Date().toISOString().split('T')[0];
+}
+
+function oraAcum() {
+  const d = new Date();
+  return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
 }
 
 function formataData(str) {
