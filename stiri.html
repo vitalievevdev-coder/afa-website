@@ -461,14 +461,14 @@ function getEmbedFB(url) {
 }
 
 function randeazaMedia(s) {
-  // video are prioritate daca nu exista foto
+  // video are PRIORITATE maxima, apoi foto, apoi placeholder
   const ytEmbed = getEmbedYT(s.youtube);
   const fbEmbed = getEmbedFB(s.facebook);
 
-  if (s.foto) {
-    return `<img class="card-post-img" src="${s.foto}" alt="${s.titlu}" loading="lazy"/>`;
-  } else if (ytEmbed || fbEmbed) {
+  if (ytEmbed || fbEmbed) {
     return `<div class="card-post-video"><iframe src="${ytEmbed || fbEmbed}" allowfullscreen></iframe></div>`;
+  } else if (s.foto) {
+    return `<img class="card-post-img" src="${s.foto}" alt="${s.titlu}" loading="lazy"/>`;
   } else {
     return `<div class="card-post-img-placeholder" style="background:${culoareBg(s.categorie)}20;">
       <svg viewBox="0 0 24 24" fill="${culoareBg(s.categorie)}"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
@@ -480,10 +480,11 @@ function randeazaCard(s, isPrincipal = false) {
   if (isPrincipal) {
     const ytEmbed = getEmbedYT(s.youtube);
     const fbEmbed = getEmbedFB(s.facebook);
-    const mediaHtml = s.foto
-      ? `<img class="card-post-img" src="${s.foto}" alt="${s.titlu}" style="height:100%;min-height:320px;"/>`
-      : (ytEmbed || fbEmbed)
-        ? `<div style="height:320px;"><iframe src="${ytEmbed||fbEmbed}" width="100%" height="320" frameborder="0" allowfullscreen style="display:block;"></iframe></div>`
+    // video prioritar, apoi foto, apoi placeholder
+    const mediaHtml = (ytEmbed || fbEmbed)
+      ? `<div style="height:320px;"><iframe src="${ytEmbed||fbEmbed}" width="100%" height="320" frameborder="0" allowfullscreen style="display:block;"></iframe></div>`
+      : s.foto
+        ? `<img class="card-post-img" src="${s.foto}" alt="${s.titlu}" style="height:100%;min-height:320px;"/>`
         : `<div class="card-post-img-placeholder" style="height:320px;background:${culoareBg(s.categorie)}20;"><svg viewBox="0 0 24 24" width="80" height="80" fill="${culoareBg(s.categorie)}" opacity="0.2"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>`;
 
     return `
