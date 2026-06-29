@@ -1020,7 +1020,7 @@ function actualizeazaDashboard() {
   const total    = stiriDate.length;
   const alerte   = stiriDate.filter(s => s.categorie === 'alerta').length;
   const publicate= stiriDate.filter(s => s.status !== 'nepublicat').length;
-  const aziNr    = stiriDate.filter(s => s.data === azi()).length;
+  const aziNr    = stiriDate.filter(s => s.data && s.data.startsWith(azi())).length;
 
   document.getElementById('s-total').textContent    = total;
   document.getElementById('s-alerte').textContent   = alerte;
@@ -1250,7 +1250,8 @@ function editeaza(id) {
   document.getElementById('s-titlu').value     = s.titlu;
   setEditorContent(s.continut || '');
   document.getElementById('s-categorie').value = s.categorie;
-  document.getElementById('s-data').value      = s.data || dateTimeAcum();
+  const dataEdit = s.data ? (s.data.includes('T') ? s.data : s.data + 'T00:00') : dateTimeAcum();
+  document.getElementById('s-data').value = dataEdit;
   document.getElementById('s-autor').value     = s.autor || 'Echipa AFA';
   document.getElementById('s-principal').checked = s.principal;
   document.getElementById('s-youtube').value   = s.youtube || '';
@@ -1305,11 +1306,13 @@ function previzualizeazaStire() {
   const categorie= document.getElementById('s-categorie').value;
   const data     = document.getElementById('s-data').value;
   const autor    = document.getElementById('s-autor').value.trim() || 'Echipa AFA';
-  const foto     = document.getElementById('s-foto-url').value || document.getElementById('img-prev').src || '';
+  const fotoUrl  = document.getElementById('s-foto-url').value;
+  const imgPrev  = document.getElementById('img-prev');
+  const foto     = fotoUrl || (document.getElementById('prev-foto').style.display !== 'none' ? imgPrev.src : '') || '';
 
   const dataPretty = data ? new Date(data).toLocaleString('ro-RO', { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '—';
   const catMap = { alerta:'Alertă Fraudă', eveniment:'Eveniment', raport:'Raport', stire:'Știre AFA', international:'Internațional' };
-  const fotoHtml = (foto && !foto.startsWith('data:') && foto.length > 10 || foto.startsWith('data:'))
+  const fotoHtml = foto && foto.length > 10
     ? `<img src="${foto}" style="width:100%;max-height:400px;object-fit:cover;border-radius:12px;margin-bottom:20px;display:block;"/>`
     : `<div style="width:100%;height:200px;border-radius:12px;background:${culoareBg(categorie)};display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:20px;">📰</div>`;
 
@@ -1374,16 +1377,17 @@ async function salveazaSiPublica() {
   }
 
   // galerie
-  let galerieUrls = [];
+  // colecteaza URL-urile deja urcate din DOM
+  const galerieUrls = [];
+  document.querySelectorAll('#galerie-grid .gal-item img').forEach(img => {
+    if (img.src && !img.src.startsWith('data:')) galerieUrls.push(img.src);
+  });
+  // urca fisierele noi si adauga la lista
   const fisGalerie = galerieFisiere.filter(Boolean);
   if (fisGalerie.length) {
     sp.textContent = '📤 Se încarcă galeria...';
-    galerieUrls = await incarcaGalerieGitHub();
-  } else {
-    // galerie existenta din DOM
-    document.querySelectorAll('#galerie-grid .gal-item img').forEach(img => {
-      if (img.src && !img.src.startsWith('data:')) galerieUrls.push(img.src);
-    });
+    const urlsNoi = await incarcaGalerieGitHub();
+    galerieUrls.push(...urlsNoi);
   }
 
   if (principal) stiriDate.forEach(s => s.principal = false);
