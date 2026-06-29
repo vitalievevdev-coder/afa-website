@@ -1109,9 +1109,7 @@ function selectCat(btn) {
 
 // ====================== STATUS ======================
 function selectStatus(val) {
-  document.getElementById('s-status').value = val;
-  document.getElementById('tog-pub').classList.toggle('activ', val === 'publicat');
-  document.getElementById('tog-nep').classList.toggle('activ', val === 'nepublicat');
+  document.getElementById('s-status').value = val || 'publicat';
 }
 
 async function toggleStatus(id) {
