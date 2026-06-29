@@ -1078,10 +1078,8 @@ function randTabel(s, eDash) {
     </td>
     <td class="actiuni-cell">
       <button class="btn-act btn-edit" onclick="editeaza(${s.id})">✏️ Editează</button>
-      ${status === 'nepublicat'
-        ? `<button class="btn-act btn-pub"   onclick="toggleStatus(${s.id})">✅ Publică</button>`
-        : `<button class="btn-act btn-depub" onclick="toggleStatus(${s.id})">○ Depublică</button>`
-      }
+      <button class="btn-act btn-pub"   onclick="seteazaStatus(${s.id},'publicat')"   ${status==='publicat'   ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>✅ Publică</button>
+      <button class="btn-act btn-depub" onclick="seteazaStatus(${s.id},'nepublicat')" ${status==='nepublicat' ? 'disabled style="opacity:0.4;cursor:default;"' : ''}>○ Depublică</button>
       <button class="btn-act btn-del"  onclick="sterge(${s.id})">🗑️ Șterge</button>
     </td>
   </tr>`;
@@ -1110,6 +1108,16 @@ async function toggleStatus(id) {
   actualizeazaUI();
   await publicaPeGitHub();
   notif(s.status === 'publicat' ? '✅ Știrea a fost publicată!' : '○ Știrea a fost ascunsă!', 'ok');
+}
+
+async function seteazaStatus(id, nouStatus) {
+  const s = stiriDate.find(x => x.id === id);
+  if (!s || s.status === nouStatus) return;
+  s.status = nouStatus;
+  salveazaLocal();
+  actualizeazaUI();
+  await publicaPeGitHub();
+  notif(nouStatus === 'publicat' ? '✅ Știrea a fost publicată!' : '○ Știrea a fost ascunsă!', 'ok');
 }
 
 // ====================== FOTO ======================
