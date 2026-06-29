@@ -1087,7 +1087,12 @@ async function publicaPeGitHub() {
     if (r1.ok) { const d = await r1.json(); sha = d.sha; }
 
     // publica
-    const continutB64 = btoa(unescape(encodeURIComponent(JSON.stringify(stiriDate, null, 2))));
+    // btoa nu suporta caractere speciale — folosim TextEncoder pentru UTF-8 corect
+    const jsonStr = JSON.stringify(stiriDate, null, 2);
+    const uint8 = new TextEncoder().encode(jsonStr);
+    let binar = '';
+    uint8.forEach(b => binar += String.fromCharCode(b));
+    const continutB64 = btoa(binar);
     const r2 = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/data/stiri.json`, {
       method: 'PUT',
       headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
