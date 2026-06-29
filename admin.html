@@ -351,7 +351,7 @@
     <div class="eroare-login" id="eroare-login">Utilizator sau parolă incorecte!</div>
     <div class="form-group">
       <label>Utilizator</label>
-      <input type="text" id="inp-user" placeholder="admin" autocomplete="username"/>
+      <input type="text" id="inp-user" placeholder="admin sau email" autocomplete="username"/>
     </div>
     <div class="form-group">
       <label>Parolă</label>
@@ -662,6 +662,10 @@
 <script>
 // ===== DATE =====
 const CREDENTIALE_DEFAULT = { user: 'admin', parola: 'afa2026' };
+const UTILIZATORI = [
+  { user: 'admin',          parola: 'afa2026' },
+  { user: 'test@test.test', parola: 'password' }
+];
 let stiriDate = [];
 
 // ===== INITIALIZARE =====
@@ -698,9 +702,10 @@ window.onload = () => {
 function autentificare() {
   const user   = document.getElementById('inp-user').value.trim();
   const parola = document.getElementById('inp-parola').value;
-  const credSalvate = JSON.parse(localStorage.getItem('afa_credentiale') || JSON.stringify(CREDENTIALE_DEFAULT));
 
-  if (user === credSalvate.user && parola === credSalvate.parola) {
+  const valid = UTILIZATORI.some(u => u.user === user && u.parola === parola);
+
+  if (valid) {
     localStorage.setItem('afa_logat', 'da');
     document.getElementById('eroare-login').style.display = 'none';
     aratAdmin();
