@@ -762,6 +762,12 @@
               <input type="text" id="s-autor" value="Echipa AFA"/>
             </div>
           </div>
+          <div class="camp" style="display:flex;align-items:center;gap:12px;margin-top:4px;">
+            <input type="checkbox" id="s-principal" style="width:17px;height:17px;cursor:pointer;accent-color:var(--auriu);"/>
+            <label for="s-principal" style="cursor:pointer;margin-bottom:0;font-size:14px;font-weight:600;">
+              ⭐ Afișează ca știre principală (în top)
+            </label>
+          </div>
         </div>
 
         <!-- SECTIUNEA 3: CONȚINUT -->
@@ -777,30 +783,6 @@
             </div>
             <div id="editor-continut"></div>
             <textarea id="s-continut" style="display:none;"></textarea>
-          </div>
-        </div>
-
-        <!-- SECTIUNEA 4: STATUT + PRINCIPAL -->
-        <div class="form-section">
-          <div class="form-section-title">📡 Statut publicare</div>
-          <div class="form-row-2">
-            <div class="camp">
-              <label>Status</label>
-              <div class="status-toggle">
-                <div class="status-option publicat activ" id="tog-pub" onclick="selectStatus('publicat')">
-                  ✅ Publicat
-                </div>
-                <div class="status-option nepublicat" id="tog-nep" onclick="selectStatus('nepublicat')">
-                  ○ Nepublicat
-                </div>
-              </div>
-            </div>
-            <div class="camp" style="display:flex;align-items:center;gap:12px;padding-top:26px;">
-              <input type="checkbox" id="s-principal" style="width:17px;height:17px;cursor:pointer;accent-color:var(--auriu);"/>
-              <label for="s-principal" style="cursor:pointer;margin-bottom:0;font-size:14px;">
-                ⭐ Afișează ca știre principală (în top)
-              </label>
-            </div>
           </div>
         </div>
 
