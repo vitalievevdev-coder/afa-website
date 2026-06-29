@@ -629,8 +629,8 @@ function getEmbedFB(url) {
 }
 
 function randeazaImgSau(s) {
-  if (s.foto) return `<div class="img" style="background:#000;"><img src="${s.foto}" style="width:100%;height:100%;object-fit:cover;" alt="${s.titlu}"/></div>`;
-  return `<div class="img" style="${culoareImg(s.categorie)}">${s.emoji}</div>`;
+  if (s.foto) return `<div class="img" style="background:#000;padding:0;"><img src="${s.foto}" style="width:100%;height:100%;object-fit:cover;" alt="${s.titlu}"/></div>`;
+  return `<div class="img" style="${culoareImg(s.categorie)}"></div>`;
 }
 
 function randeazaVideo(s) {
@@ -681,7 +681,7 @@ async function incarcaStiri() {
       <div class="stire-hero-img" style="${principal.foto ? 'background:#000;padding:0;' : culoareImg(principal.categorie)}">
         ${principal.foto
           ? `<img src="${principal.foto}" style="width:100%;height:100%;object-fit:cover;" alt="${principal.titlu}"/>`
-          : principal.emoji}
+          : ''}
       </div>
       <div class="stire-hero-body">
         <div class="badge">${numeCategorie(principal.categorie)}</div>
@@ -736,7 +736,7 @@ async function incarcaStiri() {
           ${stiri.slice(0,5).map(s=>`
           <div class="stire-mini">
             <div class="icon-mic" style="${culoareImg(s.categorie)};color:#fff;">
-              ${s.foto ? `<img src="${s.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" alt=""/>` : s.emoji}
+              ${s.foto ? `<img src="${s.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" alt=""/>` : ''}
             </div>
             <div class="text">
               <h5>${s.titlu}</h5>
