@@ -1,1 +1,54 @@
-[{"id":1,"titlu":"Val nou de fraude bancare prin SMS — Mii de cetățeni vizați","continut":"Infractorii trimit mesaje SMS care imită băncile naționale, solicitând verificarea urgentă a contului. Nu accesa niciun link primit prin SMS de la un număr necunoscut.","categorie":"alerta","emoji":"🔐","data":"2026-06-27","autor":"Echipa AFA","principal":true,"foto":null,"youtube":null,"facebook":null},{"id":2,"titlu":"Phishing avansat: site-uri false ale ANAF și Poliției Naționale","continut":"Au apărut zeci de site-uri care imită perfect instituțiile statului pentru a colecta date personale și bancare ale cetățenilor.","categorie":"alerta","emoji":"🎣","data":"2026-06-25","autor":"Echipa AFA","principal":false,"foto":null,"youtube":null,"facebook":null},{"id":3,"titlu":"Seminar gratuit AFA: Cum să recunoști o fraudă în 2026","continut":"AFA organizează un seminar deschis publicului larg pe 15 iulie 2026 la Chișinău. Participarea este complet gratuită — locuri limitate.","categorie":"eveniment","emoji":"🎓","data":"2026-06-20","autor":"Echipa AFA","principal":false,"foto":null,"youtube":null,"facebook":null}]
+[
+  {
+    "id": 4,
+    "titlu": "Fraude escroci",
+    "continut": "mnbcnb amn j jabdckbakdjbc;ak j jbc;kdbc;kjabdkcjadkj bphckjadchakdnckjbndfvc",
+    "categorie": "alerta",
+    "emoji": "📰",
+    "data": "2026-06-29",
+    "autor": "Echipa AFA",
+    "principal": false,
+    "foto": "https://raw.githubusercontent.com/vitalievevdev-coder/afa-website/main/images/stiri/stire_1782734693137_Image_26_____2026__.__19_32_21.png",
+    "youtube": null,
+    "facebook": null
+  },
+  {
+    "id": 1,
+    "titlu": "Val nou de fraude bancare prin SMS â Mii de cetÄÈeni vizaÈi",
+    "continut": "Infractorii trimit mesaje SMS care imitÄ bÄncile naÈionale, solicitÃ¢nd verificarea urgentÄ a contului. Nu accesa niciun link primit prin SMS de la un numÄr necunoscut.",
+    "categorie": "alerta",
+    "emoji": "ð",
+    "data": "2026-06-27",
+    "autor": "Echipa AFA",
+    "principal": true,
+    "foto": null,
+    "youtube": null,
+    "facebook": null
+  },
+  {
+    "id": 2,
+    "titlu": "Phishing avansat: site-uri false ale ANAF Èi PoliÈiei NaÈionale",
+    "continut": "Au apÄrut zeci de site-uri care imitÄ perfect instituÈiile statului pentru a colecta date personale Èi bancare ale cetÄÈenilor.",
+    "categorie": "alerta",
+    "emoji": "ð£",
+    "data": "2026-06-25",
+    "autor": "Echipa AFA",
+    "principal": false,
+    "foto": null,
+    "youtube": null,
+    "facebook": null
+  },
+  {
+    "id": 3,
+    "titlu": "Seminar gratuit AFA: Cum sÄ recunoÈti o fraudÄ Ã®n 2026",
+    "continut": "AFA organizeazÄ un seminar deschis publicului larg pe 15 iulie 2026 la ChiÈinÄu. Participarea este complet gratuitÄ â locuri limitate.",
+    "categorie": "eveniment",
+    "emoji": "ð",
+    "data": "2026-06-20",
+    "autor": "Echipa AFA",
+    "principal": false,
+    "foto": null,
+    "youtube": null,
+    "facebook": null
+  }
+]
