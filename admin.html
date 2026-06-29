@@ -405,6 +405,13 @@
       cursor:pointer; font-family:inherit; transition:all 0.3s;
     }
     .btn-publica:hover { background:var(--verde-d); transform:translateY(-1px); }
+    .btn-preview {
+      background:var(--albastru-m); color:#fff;
+      padding:11px 22px; border-radius:22px;
+      border:none; font-size:14px; font-weight:700;
+      cursor:pointer; font-family:inherit; transition:all 0.3s;
+    }
+    .btn-preview:hover { background:var(--albastru); transform:translateY(-1px); }
     .btn-anuleaza {
       background:var(--gri); color:#555; padding:11px 22px;
       border-radius:22px; border:none; font-size:14px; font-weight:700;
@@ -650,69 +657,7 @@
         <input type="hidden" id="s-vizualizari" value="0"/>
         <input type="hidden" id="s-status" value="publicat"/>
 
-        <!-- SECTIUNEA 1: INFO PRINCIPALE -->
-        <div class="form-section">
-          <div class="form-section-title">📝 Informații principale</div>
-          <div class="camp">
-            <label>Titlul știrii *</label>
-            <input type="text" id="s-titlu" placeholder="Ex: Alertă — Nouă schemă de phishing vizează clienții băncilor"/>
-          </div>
-          <div class="form-row-3">
-            <div class="camp">
-              <label>Categorie *</label>
-              <select id="s-categorie">
-                <option value="alerta">Alertă Fraudă</option>
-                <option value="eveniment">Eveniment</option>
-                <option value="raport">Raport</option>
-                <option value="stire">Știre AFA</option>
-                <option value="international">Internațional</option>
-              </select>
-            </div>
-            <div class="camp">
-              <label>Data și ora publicării *</label>
-              <input type="datetime-local" id="s-data"/>
-            </div>
-            <div class="camp">
-              <label>Autor</label>
-              <input type="text" id="s-autor" value="Echipa AFA"/>
-            </div>
-          </div>
-        </div>
-
-        <!-- SECTIUNEA 2: STATUT + PRINCIPAL -->
-        <div class="form-section">
-          <div class="form-section-title">📡 Statut publicare</div>
-          <div class="form-row-2">
-            <div class="camp">
-              <label>Status</label>
-              <div class="status-toggle">
-                <div class="status-option publicat activ" id="tog-pub" onclick="selectStatus('publicat')">
-                  ✅ Publicat
-                </div>
-                <div class="status-option nepublicat" id="tog-nep" onclick="selectStatus('nepublicat')">
-                  ○ Nepublicat
-                </div>
-              </div>
-            </div>
-            <div class="camp" style="display:flex;align-items:center;gap:12px;padding-top:26px;">
-              <input type="checkbox" id="s-principal" style="width:17px;height:17px;cursor:pointer;accent-color:var(--auriu);"/>
-              <label for="s-principal" style="cursor:pointer;margin-bottom:0;font-size:14px;">
-                ⭐ Afișează ca știre principală (în top)
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <!-- SECTIUNEA 3: CONȚINUT -->
-        <div class="form-section">
-          <div class="form-section-title">📄 Conținut</div>
-          <div class="camp">
-            <label>Conținut / Rezumat *</label>
-            <textarea id="s-continut" placeholder="Scrie conținutul știrii sau un rezumat (2-4 propoziții)..."></textarea>
-          </div>
-        </div>
-
-        <!-- SECTIUNEA 4: MEDIA -->
+        <!-- SECTIUNEA 1: MEDIA -->
         <div class="form-section">
           <div class="form-section-title">🖼️ Media</div>
           <div class="form-row-2" style="margin-bottom:20px;">
@@ -764,8 +709,71 @@
           </div>
         </div>
 
+        <!-- SECTIUNEA 2: INFO PRINCIPALE -->
+        <div class="form-section">
+          <div class="form-section-title">📝 Informații principale</div>
+          <div class="camp">
+            <label>Titlul știrii *</label>
+            <input type="text" id="s-titlu" placeholder="Ex: Alertă — Nouă schemă de phishing vizează clienții băncilor"/>
+          </div>
+          <div class="form-row-3">
+            <div class="camp">
+              <label>Categorie *</label>
+              <select id="s-categorie">
+                <option value="alerta">Alertă Fraudă</option>
+                <option value="eveniment">Eveniment</option>
+                <option value="raport">Raport</option>
+                <option value="stire">Știre AFA</option>
+                <option value="international">Internațional</option>
+              </select>
+            </div>
+            <div class="camp">
+              <label>Data și ora publicării *</label>
+              <input type="datetime-local" id="s-data"/>
+            </div>
+            <div class="camp">
+              <label>Autor</label>
+              <input type="text" id="s-autor" value="Echipa AFA"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTIUNEA 3: CONȚINUT -->
+        <div class="form-section">
+          <div class="form-section-title">📄 Conținut</div>
+          <div class="camp">
+            <label>Conținut / Rezumat *</label>
+            <textarea id="s-continut" placeholder="Scrie conținutul știrii sau un rezumat (2-4 propoziții)..."></textarea>
+          </div>
+        </div>
+
+        <!-- SECTIUNEA 4: STATUT + PRINCIPAL -->
+        <div class="form-section">
+          <div class="form-section-title">📡 Statut publicare</div>
+          <div class="form-row-2">
+            <div class="camp">
+              <label>Status</label>
+              <div class="status-toggle">
+                <div class="status-option publicat activ" id="tog-pub" onclick="selectStatus('publicat')">
+                  ✅ Publicat
+                </div>
+                <div class="status-option nepublicat" id="tog-nep" onclick="selectStatus('nepublicat')">
+                  ○ Nepublicat
+                </div>
+              </div>
+            </div>
+            <div class="camp" style="display:flex;align-items:center;gap:12px;padding-top:26px;">
+              <input type="checkbox" id="s-principal" style="width:17px;height:17px;cursor:pointer;accent-color:var(--auriu);"/>
+              <label for="s-principal" style="cursor:pointer;margin-bottom:0;font-size:14px;">
+                ⭐ Afișează ca știre principală (în top)
+              </label>
+            </div>
+          </div>
+        </div>
+
         <div class="form-actiuni">
-          <button class="btn-publica" onclick="salveazaSiPublica()">🚀 Publică pe site</button>
+          <button class="btn-publica" onclick="salveazaSiPublica()">💾 Salvează</button>
+          <button class="btn-preview" onclick="previzualizeazaStire()">👁 Previzualizare</button>
           <button class="btn-anuleaza" onclick="navEcran('stiri',document.getElementById('nav-stiri'))">Anulează</button>
           <span id="status-pub" style="font-size:13px;color:#999;margin-left:10px;"></span>
         </div>
@@ -1278,6 +1286,50 @@ async function sterge(id) {
   actualizeazaUI();
   await publicaPeGitHub();
   notif('Știrea a fost ștearsă!', 'ok');
+}
+
+// ====================== PREVIZUALIZARE ======================
+function previzualizeazaStire() {
+  const titlu    = document.getElementById('s-titlu').value.trim();
+  const continut = document.getElementById('s-continut').value.trim();
+  const categorie= document.getElementById('s-categorie').value;
+  const data     = document.getElementById('s-data').value;
+  const autor    = document.getElementById('s-autor').value.trim() || 'Echipa AFA';
+  const foto     = document.getElementById('s-foto-url').value || document.getElementById('img-prev').src || '';
+
+  const dataPretty = data ? new Date(data).toLocaleString('ro-RO', { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '—';
+  const catMap = { alerta:'Alertă Fraudă', eveniment:'Eveniment', raport:'Raport', stire:'Știre AFA', international:'Internațional' };
+  const fotoHtml = (foto && !foto.startsWith('data:') && foto.length > 10 || foto.startsWith('data:'))
+    ? `<img src="${foto}" style="width:100%;max-height:400px;object-fit:cover;border-radius:12px;margin-bottom:20px;display:block;"/>`
+    : `<div style="width:100%;height:200px;border-radius:12px;background:${culoareBg(categorie)};display:flex;align-items:center;justify-content:center;font-size:48px;margin-bottom:20px;">📰</div>`;
+
+  const html = `<!DOCTYPE html><html lang="ro"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Previzualizare: ${titlu || 'Fără titlu'}</title>
+    <style>
+      body{font-family:'Segoe UI',Arial,sans-serif;background:#f5f7fa;margin:0;padding:20px;}
+      .wrap{max-width:760px;margin:0 auto;background:#fff;border-radius:16px;padding:36px;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
+      .badge{display:inline-block;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:700;text-transform:uppercase;margin-bottom:14px;background:#ffebee;color:#c62828;}
+      h1{font-size:26px;color:#0a2342;margin:0 0 12px;line-height:1.3;}
+      .meta{font-size:13px;color:#999;margin-bottom:24px;}
+      p{font-size:15px;line-height:1.8;color:#444;}
+      .preview-label{background:#0a2342;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;margin-bottom:20px;display:inline-block;}
+    </style>
+  </head><body>
+    <div class="wrap">
+      <div class="preview-label">👁 PREVIZUALIZARE — nu este publicat</div><br/>
+      ${fotoHtml}
+      <span class="badge">${catMap[categorie] || categorie}</span>
+      <h1>${titlu || '(fără titlu)'}</h1>
+      <div class="meta">📅 ${dataPretty} &nbsp;|&nbsp; ✍️ ${autor}</div>
+      <p>${continut ? continut.replace(/\n/g,'<br/>') : '(fără conținut)'}</p>
+    </div>
+  </body></html>`;
+
+  const win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
 }
 
 // ====================== SALVEAZA + PUBLICA ======================
