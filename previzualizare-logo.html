@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Logo AFA — Previzualizare</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; background: #f5f7fa; }
+    h1 { text-align: center; color: #0a2342; padding: 30px 0 10px; font-size: 22px; }
+    .subtitlu { text-align: center; color: #777; margin-bottom: 40px; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 900px; margin: 0 auto; padding: 0 30px 60px; }
+    .box { border-radius: 16px; padding: 50px 30px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .box.fundal-alb { background: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .box.fundal-inchis { background: linear-gradient(135deg, #0a2342, #1a4a8a); }
+    .box.fundal-gri { background: #f0f0f0; }
+    .box.fundal-auriu { background: linear-gradient(135deg, #c8a84b, #e8c96a); }
+    .eticheta { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; opacity: 0.6; }
+    .box.fundal-inchis .eticheta { color: #fff; }
+    .box.fundal-auriu .eticheta { color: #0a2342; }
+    img { max-width: 100%; height: auto; }
+    .nota { text-align: center; background: #0a2342; color: #c8a84b; padding: 20px; font-size: 14px; }
+  </style>
+</head>
+<body>
+
+<h1>Logo-ul AFA — Anti-Fraud Alliance</h1>
+<p class="subtitlu">Versiuni pentru diferite fundaluri · Alege ce îți place</p>
+
+<div class="grid">
+  <div class="box fundal-alb">
+    <span class="eticheta">Pe fundal alb</span>
+    <img src="images/logo-afa.svg" alt="Logo AFA" />
+  </div>
+
+  <div class="box fundal-inchis">
+    <span class="eticheta">Pe fundal inchis (header)</span>
+    <img src="images/logo-afa-alb.svg" alt="Logo AFA alb" />
+  </div>
+
+  <div class="box fundal-gri">
+    <span class="eticheta">Pe fundal gri</span>
+    <img src="images/logo-afa.svg" alt="Logo AFA" />
+  </div>
+
+  <div class="box fundal-auriu">
+    <span class="eticheta">Pe fundal auriu</span>
+    <img src="images/logo-afa.svg" alt="Logo AFA" />
+  </div>
+</div>
+
+<div class="nota">
+  Logourile sunt în format SVG — se măresc la orice dimensiune fără a se pixela. Perfecte pentru web, print, și social media.
+</div>
+
+</body>
+</html>

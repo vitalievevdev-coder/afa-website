@@ -12,7 +12,7 @@
       border-bottom: 1px solid #eee;
       padding: 14px 0;
       position: sticky;
-      top: 95px;
+      top: 0;
       z-index: 100;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
@@ -74,13 +74,13 @@
     /* imagine card */
     .card-post-img {
       width: 100%;
-      height: 200px;
+      height: 280px;
       object-fit: cover;
       display: block;
     }
     .card-post-img-placeholder {
       width: 100%;
-      height: 200px;
+      height: 280px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -155,7 +155,7 @@
     }
     .card-post-video iframe {
       width: 100%;
-      height: 200px;
+      height: 280px;
       display: block;
       border: none;
     }
@@ -163,40 +163,68 @@
     /* ===== CARD PRINCIPAL (primul, mare) ===== */
     .card-post-principal {
       grid-column: 1 / -1;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      position: relative;
       border-radius: 16px;
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0,0,0,0.10);
-      background: #fff;
+      background: #000;
       transition: all 0.3s;
       cursor: pointer;
       margin-bottom: 10px;
+      height: 700px;
     }
     .card-post-principal:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 35px rgba(0,0,0,0.15);
     }
     .card-post-principal .card-post-img {
-      height: 100%;
-      min-height: 320px;
+      width: 100%;
+      height: 700px;
+      object-fit: cover;
+      display: block;
+      opacity: 0.75;
+    }
+    .card-post-principal iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
     }
     .card-post-principal .card-post-img-placeholder {
-      height: 320px;
+      height: 700px;
     }
-    .card-post-principal .card-post-body {
-      padding: 35px 30px;
-      justify-content: center;
+    /* gradient sus */
+    .card-post-principal .card-overlay-top {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      padding: 16px 30px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);
+      z-index: 2;
+    }
+    /* gradient jos */
+    .card-post-principal .card-overlay-bottom {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 20px 30px;
+      background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+      z-index: 2;
     }
     .card-post-principal .card-post-titlu {
-      font-size: 22px;
-      -webkit-line-clamp: 4;
-      margin-bottom: 14px;
+      font-size: 26px;
+      color: #fff !important;
+      -webkit-line-clamp: 3;
+      margin-top: 6px;
+      margin-bottom: 0;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
     }
-    .card-post-principal .card-post-rezumat {
-      font-size: 14px;
-      -webkit-line-clamp: 4;
-      margin-bottom: 20px;
+    .card-post-principal .card-post-meta {
+      border-top: none;
+      padding-top: 0;
+      color: rgba(255,255,255,0.85);
+    }
+    .card-post-principal .card-post-cat {
+      color: #fff !important;
+      opacity: 0.85;
     }
     .badge-principal-label {
       display: inline-flex;
@@ -210,7 +238,7 @@
       border-radius: 12px;
       letter-spacing: 1px;
       text-transform: uppercase;
-      margin-bottom: 14px;
+      margin-bottom: 6px;
     }
 
     /* ===== PAGINARE ===== */
@@ -289,8 +317,8 @@
 
     @media (max-width: 900px) {
       .stiri-grid { grid-template-columns: repeat(2, 1fr); }
-      .card-post-principal { grid-template-columns: 1fr; }
-      .card-post-principal .card-post-img { height: 220px; min-height: unset; }
+      .card-post-principal .card-post-img { height: 250px; }
+      .card-post-principal iframe { height: 250px !important; }
     }
     @media (max-width: 600px) {
       .stiri-grid { grid-template-columns: 1fr; }
@@ -325,15 +353,6 @@
   </div>
 </header>
 
-<!-- PAGE HEADER -->
-<section class="page-header">
-  <div class="container">
-    <div class="breadcrumb"><a href="index.html">Acasă</a> › Știri</div>
-    <h1>Știri și Alerte</h1>
-    <p>Cele mai recente informații despre fraude, escrocherii și activitățile AFA</p>
-  </div>
-</section>
-
 <!-- BARA FILTRE + SEARCH -->
 <div class="filtru-bar">
   <div class="container" style="justify-content:space-between;">
@@ -354,7 +373,7 @@
 </div>
 
 <!-- CONTINUT -->
-<section class="sectiune">
+<section class="sectiune" style="padding-top: 20px;">
   <div class="container">
     <div class="stiri-grid" id="stiri-grid">
       <div class="loading-stiri">
@@ -482,19 +501,20 @@ function randeazaCard(s, isPrincipal = false) {
     const fbEmbed = getEmbedFB(s.facebook);
     // video prioritar, apoi foto, apoi placeholder
     const mediaHtml = (ytEmbed || fbEmbed)
-      ? `<div style="height:320px;"><iframe src="${ytEmbed||fbEmbed}" width="100%" height="320" frameborder="0" allowfullscreen style="display:block;"></iframe></div>`
+      ? `<iframe src="${ytEmbed||fbEmbed}" width="100%" height="580" frameborder="0" allowfullscreen style="display:block;border:none;"></iframe>`
       : s.foto
-        ? `<img class="card-post-img" src="${s.foto}" alt="${s.titlu}" style="height:100%;min-height:320px;"/>`
-        : `<div class="card-post-img-placeholder" style="height:320px;background:${culoareBg(s.categorie)}20;"><svg viewBox="0 0 24 24" width="80" height="80" fill="${culoareBg(s.categorie)}" opacity="0.2"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>`;
+        ? `<img class="card-post-img" src="${s.foto}" alt="${s.titlu}"/>`
+        : `<div class="card-post-img-placeholder" style="height:580px;background:${culoareBg(s.categorie)}20;"><svg viewBox="0 0 24 24" width="80" height="80" fill="${culoareBg(s.categorie)}" opacity="0.2"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>`;
 
     return `
     <div class="card-post-principal" onclick="window.location.href='stire.html?id=${s.id}'">
       ${mediaHtml}
-      <div class="card-post-body">
+      <div class="card-overlay-top">
         <div class="badge-principal-label">🔴 Principală</div>
         <span class="card-post-cat ${s.categorie}">${numeCategorie(s.categorie)}</span>
-        <div class="card-post-titlu" style="-webkit-line-clamp:4;font-size:22px;">${s.titlu}</div>
-        <div class="card-post-rezumat" style="-webkit-line-clamp:4;">${s.continut}</div>
+        <div class="card-post-titlu">${s.titlu}</div>
+      </div>
+      <div class="card-overlay-bottom">
         <div class="card-post-meta">
           <span class="card-post-data">📅 ${formateazaData(s.data)}</span>
           <span class="card-post-vizualizari">👁 ${(s.vizualizari||0).toLocaleString()} vizualizări</span>
@@ -509,7 +529,6 @@ function randeazaCard(s, isPrincipal = false) {
     <div class="card-post-body">
       <span class="card-post-cat ${s.categorie}">${numeCategorie(s.categorie)}</span>
       <div class="card-post-titlu">${s.titlu}</div>
-      <div class="card-post-rezumat">${s.continut}</div>
       <div class="card-post-meta">
         <span class="card-post-data">📅 ${formateazaData(s.data)}</span>
         <span class="card-post-vizualizari">👁 ${(s.vizualizari||0).toLocaleString()} vizualizări</span>

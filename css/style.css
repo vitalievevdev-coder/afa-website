@@ -1,13 +1,14 @@
 /* ===== AFA - Anti-Fraud Alliance | Stiluri principale ===== */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
 :root {
-  --albastru-inchis: #0a2342;
-  --albastru-mediu: #1a4a8a;
-  --auriu: #c8a84b;
-  --auriu-deschis: #e8c96a;
+  --albastru-inchis: #0f1923;
+  --albastru-mediu: #2680fa;
+  --auriu: #f4c765;
+  --auriu-deschis: #f7d88a;
   --alb: #ffffff;
   --gri-deschis: #f5f7fa;
-  --gri-text: #555555;
+  --gri-text: #4b5563;
   --rosu-alerta: #d32f2f;
 }
 
@@ -18,8 +19,8 @@
 }
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  color: #333;
+  font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+  color: #000;
   background: var(--alb);
 }
 
