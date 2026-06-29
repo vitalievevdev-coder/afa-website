@@ -1,16 +1,15 @@
 [
   {
     "id": 1,
-    "titlu": "ALERTA: Val nou de fraude bancare prin SMS ÃÂ¢ÃÂÃÂ mii de cetateni vizati",
-    "continut": "Infractorii trimit mesaje SMS care imita bancile nationale, solicitand verificarea urgenta a contului. Nu accesa niciun link primit prin SMS de la un numar necunoscut. Contactati banca direct la numarul de pe cardul bancar.",
+    "titlu": "ALERTA: Val nou de fraude bancare prin SMS mii de cetateni vizati",
+    "continut": "<p>Infractorii trimit mesaje <strong>SMS</strong> care imita bancile nationale, solicitand verificarea urgenta a contului. Nu accesa niciun link primit prin SMS de la un numar necunoscut. Contactati banca direct la numarul de pe cardul bancar.</p>",
     "categorie": "alerta",
-    "emoji": "ÃÂ°ÃÂÃÂÃÂ",
-    "data": "2026-06-27",
+    "data": "2026-06-29T16:47",
     "autor": "Echipa AFA",
     "principal": true,
     "status": "publicat",
     "vizualizari": 1240,
-    "foto": null,
+    "foto": "https://raw.githubusercontent.com/vitalievevdev-coder/afa-website/main/images/stiri/stire_1782740853015_WhatsApp_Image_2026_05_24_at_10.17.51.jpeg",
     "youtube": null,
     "facebook": null,
     "galerie": []
