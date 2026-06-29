@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Știre — Anti-Fraud Alliance</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .articol-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* ===== ARTICOL PRINCIPAL ===== */
+    .articol-main {}
+
+    .articol-categorie {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .articol-categorie.alerta      { background: #ffebee; color: #c62828; }
+    .articol-categorie.eveniment   { background: #e3f2fd; color: #1565c0; }
+    .articol-categorie.raport      { background: #f3e5f5; color: #7b1fa2; }
+    .articol-categorie.stire       { background: #e8f5e9; color: #2e7d32; }
+    .articol-categorie.international { background: #fff8e1; color: #e65100; }
+
+    .articol-titlu {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--albastru-inchis);
+      line-height: 1.25;
+      margin-bottom: 16px;
+    }
+
+    .articol-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 14px;
+      color: #999;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #f0f0f0;
+      flex-wrap: wrap;
+    }
+    .articol-meta span { display: flex; align-items: center; gap: 6px; }
+    .articol-meta strong { color: #555; }
+
+    .articol-foto {
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 28px;
+      background: #f5f5f5;
+    }
+    .articol-foto img {
+      width: 100%;
+      max-height: 500px;
+      object-fit: cover;
+      display: block;
+    }
+    .articol-foto-placeholder {
+      width: 100%;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      color: #ccc;
+    }
+
+    .articol-continut {
+      font-size: 16px;
+      line-height: 1.85;
+      color: #333;
+    }
+    .articol-continut p  { margin-bottom: 16px; }
+    .articol-continut h1, .articol-continut h2, .articol-continut h3 {
+      color: var(--albastru-inchis); margin: 24px 0 12px; font-weight: 800;
+    }
+    .articol-continut h1 { font-size: 24px; }
+    .articol-continut h2 { font-size: 20px; }
+    .articol-continut h3 { font-size: 17px; }
+    .articol-continut blockquote {
+      border-left: 4px solid var(--auriu);
+      padding: 12px 20px;
+      margin: 20px 0;
+      background: #fffdf5;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: #555;
+    }
+    .articol-continut ul, .articol-continut ol {
+      padding-left: 24px; margin-bottom: 16px;
+    }
+    .articol-continut li { margin-bottom: 6px; }
+    .articol-continut a  { color: var(--auriu); text-decoration: underline; }
+    .articol-continut img {
+      max-width: 100%; border-radius: 10px; margin: 16px 0;
+    }
+    .articol-continut iframe {
+      width: 100%; height: 400px; border: none;
+      border-radius: 10px; margin: 16px 0;
+    }
+    .articol-continut strong, .articol-continut b { font-weight: 700; }
+    .articol-continut em, .articol-continut i { font-style: italic; }
+
+    /* VIDEO embed */
+    .articol-video {
+      margin: 24px 0;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #000;
+    }
+    .articol-video iframe {
+      width: 100%; height: 420px; border: none; display: block;
+    }
+
+    /* GALERIE */
+    .articol-galerie {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid #f0f0f0;
+    }
+    .articol-galerie h3 {
+      font-size: 16px; font-weight: 800;
+      color: var(--albastru-inchis); margin-bottom: 14px;
+    }
+    .galerie-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .galerie-grid img {
+      width: 100%; aspect-ratio: 4/3;
+      object-fit: cover; border-radius: 10px;
+      cursor: pointer; transition: opacity 0.2s;
+      display: block;
+    }
+    .galerie-grid img:hover { opacity: 0.85; }
+
+    /* AUTOR + SHARE */
+    .articol-footer {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .autor-info {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .autor-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--albastru-inchis);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--auriu); font-weight: 900; font-size: 14px;
+    }
+    .autor-name { font-size: 14px; font-weight: 700; color: #333; }
+    .autor-rol  { font-size: 12px; color: #999; }
+    .btn-inapoi {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 22px;
+      background: var(--albastru-inchis); color: #fff;
+      font-size: 14px; font-weight: 700; text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-inapoi:hover { background: var(--auriu); color: var(--albastru-inchis); }
+
+    /* ===== SIDEBAR ===== */
+    .articol-sidebar {}
+
+    .sidebar-box {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .sidebar-box-titlu {
+      padding: 16px 20px;
+      font-size: 14px; font-weight: 800;
+      color: var(--albastru-inchis);
+      border-bottom: 2px solid var(--auriu);
+      background: #fafafa;
+    }
+
+    .card-mini {
+      display: flex; gap: 12px;
+      padding: 14px 18px;
+      border-bottom: 1px solid #f5f5f5;
+      cursor: pointer; transition: background 0.15s;
+      text-decoration: none; color: inherit;
+    }
+    .card-mini:last-child { border-bottom: none; }
+    .card-mini:hover { background: #f8fbff; }
+    .card-mini-img {
+      width: 72px; height: 56px; border-radius: 8px;
+      object-fit: cover; flex-shrink: 0;
+    }
+    .card-mini-placeholder {
+      width: 72px; height: 56px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .card-mini-body {}
+    .card-mini-titlu {
+      font-size: 13px; font-weight: 700; color: #222;
+      line-height: 1.4;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+      margin-bottom: 5px;
+    }
+    .card-mini-data { font-size: 11px; color: #bbb; }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.92); z-index: 9999;
+      align-items: center; justify-content: center;
+    }
+    .lightbox.activ { display: flex; }
+    .lightbox img {
+      max-width: 90vw; max-height: 90vh;
+      border-radius: 10px; object-fit: contain;
+    }
+    .lightbox-close {
+      position: absolute; top: 20px; right: 24px;
+      color: #fff; font-size: 32px; cursor: pointer;
+      background: none; border: none; line-height: 1;
+    }
+
+    /* LOADING */
+    .loading-state {
+      text-align: center; padding: 80px 20px;
+      color: #bbb; font-size: 16px;
+    }
+    .loading-spin {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 4px solid #eee; border-top-color: var(--auriu);
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 900px) {
+      .articol-wrap { grid-template-columns: 1fr; }
+      .articol-titlu { font-size: 24px; }
+      .articol-video iframe { height: 260px; }
+      .galerie-grid { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER din site -->
+<div id="header-placeholder"></div>
+
+<div class="articol-wrap">
+
+  <!-- CONTINUT PRINCIPAL -->
+  <main class="articol-main" id="articol-main">
+    <div class="loading-state">
+      <div class="loading-spin"></div>
+      Se încarcă articolul...
+    </div>
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="articol-sidebar">
+    <div class="sidebar-box">
+      <div class="sidebar-box-titlu">📰 Articole recente</div>
+      <div id="sidebar-recente"></div>
+    </div>
+    <div class="sidebar-box">
+      <div class="sidebar-box-titlu">🔥 Populare</div>
+      <div id="sidebar-populare"></div>
+    </div>
+  </aside>
+</div>
+
+<!-- LIGHTBOX GALERIE -->
+<div class="lightbox" id="lightbox" onclick="inchideLightbox()">
+  <button class="lightbox-close" onclick="inchideLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt=""/>
+</div>
+
+<!-- FOOTER -->
+<div id="footer-placeholder"></div>
+
+<script>
+// ===== INCARCA ARTICOLUL =====
+const SURSE = [
+  'data/stiri.json?t=' + Date.now(),
+  'https://raw.githubusercontent.com/vitalievevdev-coder/afa-website/main/data/stiri.json?t=' + Date.now()
+];
+
+let TOATE_STIRILE = [];
+
+async function init() {
+  // incarca header si footer
+  incarcaHeaderFooter();
+
+  // ia ID-ul din URL: stire.html?id=5
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id'));
+
+  // incarca stirile
+  for (const sursa of SURSE) {
+    try {
+      const r = await fetch(sursa);
+      if (r.ok) {
+        const toate = await r.json();
+        TOATE_STIRILE = toate.filter(s => !s.status || s.status !== 'nepublicat');
+        break;
+      }
+    } catch(e) {}
+  }
+
+  if (!id || isNaN(id)) {
+    document.getElementById('articol-main').innerHTML = eroareHtml('Articol negăsit', 'ID-ul articolului lipsește din URL.');
+    return;
+  }
+
+  const stire = TOATE_STIRILE.find(s => s.id === id);
+  if (!stire) {
+    document.getElementById('articol-main').innerHTML = eroareHtml('Articol negăsit', 'Articolul nu mai există sau a fost șters.');
+    return;
+  }
+
+  // seteaza titlu pagina
+  document.title = stire.titlu + ' — Anti-Fraud Alliance';
+
+  randeazaArticol(stire);
+  randeazaSidebar(stire.id);
+}
+
+function randeazaArticol(s) {
+  const viz   = (s.vizualizari || 0).toLocaleString('ro-RO');
+  const data  = formataData(s.data);
+  const catNume = numeCat(s.categorie);
+  const catBg   = culoareBg(s.categorie);
+
+  // foto principala
+  let fotoHtml = '';
+  if (s.foto) {
+    fotoHtml = `<div class="articol-foto"><img src="${s.foto}" alt="${s.titlu}"/></div>`;
+  } else {
+    fotoHtml = `<div class="articol-foto"><div class="articol-foto-placeholder" style="background:${catBg};">📰</div></div>`;
+  }
+
+  // video
+  let videoHtml = '';
+  if (s.youtube) {
+    const m = s.youtube.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/);
+    if (m) videoHtml += `<div class="articol-video"><iframe src="https://www.youtube.com/embed/${m[1]}" allowfullscreen></iframe></div>`;
+  }
+  if (s.facebook) {
+    const embedFb = `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(s.facebook)}&width=700&show_text=false`;
+    videoHtml += `<div class="articol-video"><iframe src="${embedFb}" allowfullscreen scrolling="no" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe></div>`;
+  }
+
+  // galerie
+  let galerieHtml = '';
+  if (s.galerie && s.galerie.length) {
+    const imgs = s.galerie.map((url, i) =>
+      `<img src="${url}" alt="Foto ${i+1}" onclick="deschideLightbox('${url}')" loading="lazy"/>`
+    ).join('');
+    galerieHtml = `<div class="articol-galerie"><h3>📷 Galerie foto (${s.galerie.length})</h3><div class="galerie-grid">${imgs}</div></div>`;
+  }
+
+  // initiale autor
+  const initiale = (s.autor || 'Echipa AFA').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+
+  document.getElementById('articol-main').innerHTML = `
+    <a class="btn-inapoi" href="stiri.html">← Înapoi la știri</a>
+
+    <div style="margin-top:24px;">
+      <span class="articol-categorie ${s.categorie}">${catNume}</span>
+    </div>
+
+    <h1 class="articol-titlu">${s.titlu}</h1>
+
+    <div class="articol-meta">
+      <span>📅 <strong>${data}</strong></span>
+      <span>👁 <strong>${viz}</strong> vizualizări</span>
+      <span>✍️ <strong>${s.autor || 'Echipa AFA'}</strong></span>
+    </div>
+
+    ${fotoHtml}
+    ${videoHtml}
+
+    <div class="articol-continut">
+      ${formatContinut(s.continut)}
+    </div>
+
+    ${galerieHtml}
+
+    <div class="articol-footer">
+      <div class="autor-info">
+        <div class="autor-avatar">${initiale}</div>
+        <div>
+          <div class="autor-name">${s.autor || 'Echipa AFA'}</div>
+          <div class="autor-rol">Redacția AFA</div>
+        </div>
+      </div>
+      <a class="btn-inapoi" href="stiri.html">← Înapoi la știri</a>
+    </div>
+  `;
+}
+
+function formatContinut(text) {
+  if (!text) return '<p>Conținut indisponibil.</p>';
+  // daca e HTML (din editorul Quill) - afiseaza direct
+  if (text.trim().startsWith('<')) return text;
+  // daca e text simplu - converteste paragrafele
+  return text.split('\n').filter(l => l.trim()).map(l => `<p>${l}</p>`).join('');
+}
+
+function randeazaSidebar(idCurent) {
+  const recente = [...TOATE_STIRILE]
+    .sort((a, b) => new Date(b.data) - new Date(a.data))
+    .filter(s => s.id !== idCurent)
+    .slice(0, 5);
+
+  const populare = [...TOATE_STIRILE]
+    .sort((a, b) => (b.vizualizari || 0) - (a.vizualizari || 0))
+    .filter(s => s.id !== idCurent)
+    .slice(0, 5);
+
+  document.getElementById('sidebar-recente').innerHTML   = recente.map(cardMini).join('') || '<p style="padding:14px;color:#bbb;font-size:13px;">Nu există articole.</p>';
+  document.getElementById('sidebar-populare').innerHTML  = populare.map(cardMini).join('') || '<p style="padding:14px;color:#bbb;font-size:13px;">Nu există articole.</p>';
+}
+
+function cardMini(s) {
+  const foto = s.foto
+    ? `<img class="card-mini-img" src="${s.foto}" alt="" loading="lazy"/>`
+    : `<div class="card-mini-placeholder" style="background:${culoareBg(s.categorie)};">📰</div>`;
+  return `<a class="card-mini" href="stire.html?id=${s.id}">
+    ${foto}
+    <div class="card-mini-body">
+      <div class="card-mini-titlu">${s.titlu}</div>
+      <div class="card-mini-data">📅 ${formataData(s.data)}</div>
+    </div>
+  </a>`;
+}
+
+// ===== LIGHTBOX =====
+function deschideLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('activ');
+  document.body.style.overflow = 'hidden';
+}
+function inchideLightbox() {
+  document.getElementById('lightbox').classList.remove('activ');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') inchideLightbox(); });
+
+// ===== HELPERS =====
+function formataData(str) {
+  if (!str) return '—';
+  try {
+    const d = new Date(str);
+    return d.toLocaleDateString('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' });
+  } catch { return str; }
+}
+
+function numeCat(cat) {
+  const h = { alerta:'Alertă Fraudă', eveniment:'Eveniment', raport:'Raport', stire:'Știre AFA', international:'Internațional' };
+  return h[cat] || cat;
+}
+
+function culoareBg(cat) {
+  const c = { alerta:'#ffebee', eveniment:'#e3f2fd', raport:'#f3e5f5', stire:'#e8f5e9', international:'#fff8e1' };
+  return c[cat] || '#f5f5f5';
+}
+
+function eroareHtml(titlu, desc) {
+  return `<div style="text-align:center;padding:80px 20px;">
+    <div style="font-size:48px;margin-bottom:16px;">😕</div>
+    <h2 style="color:#0a2342;margin-bottom:8px;">${titlu}</h2>
+    <p style="color:#999;margin-bottom:24px;">${desc}</p>
+    <a class="btn-inapoi" href="stiri.html">← Înapoi la știri</a>
+  </div>`;
+}
+
+function incarcaHeaderFooter() {
+  // Header static simplu daca nu exista componenta separata
+  fetch('index.html').then(r => r.text()).then(html => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const header = doc.querySelector('header');
+    const footer = doc.querySelector('footer');
+    if (header) document.getElementById('header-placeholder').innerHTML = header.outerHTML;
+    if (footer) document.getElementById('footer-placeholder').innerHTML = footer.outerHTML;
+  }).catch(() => {});
+}
+
+init();
+</script>
+</body>
+</html>

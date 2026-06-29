@@ -487,7 +487,7 @@ function randeazaCard(s, isPrincipal = false) {
         : `<div class="card-post-img-placeholder" style="height:320px;background:${culoareBg(s.categorie)}20;"><svg viewBox="0 0 24 24" width="80" height="80" fill="${culoareBg(s.categorie)}" opacity="0.2"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg></div>`;
 
     return `
-    <div class="card-post-principal">
+    <div class="card-post-principal" onclick="window.location.href='stire.html?id=${s.id}'">
       ${mediaHtml}
       <div class="card-post-body">
         <div class="badge-principal-label">🔴 Principală</div>
@@ -503,7 +503,7 @@ function randeazaCard(s, isPrincipal = false) {
   }
 
   return `
-  <div class="card-post" onclick="this.style.opacity='0.8'">
+  <div class="card-post" onclick="window.location.href='stire.html?id=${s.id}'">
     ${randeazaMedia(s)}
     <div class="card-post-body">
       <span class="card-post-cat ${s.categorie}">${numeCategorie(s.categorie)}</span>
