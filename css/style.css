@@ -134,9 +134,9 @@ nav ul li a.activ {
 
 /* ===== CONTAINER ===== */
 .container {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 30px;
 }
 
 /* ===== HERO BANNER ===== */
