@@ -59,7 +59,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 0;
+  padding: 12px 0;
 }
 
 .logo {
@@ -134,9 +134,9 @@ nav ul li a.activ {
 
 /* ===== CONTAINER ===== */
 .container {
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
-  padding: 0 30px;
+  padding: 0 40px;
 }
 
 /* ===== HERO BANNER ===== */
@@ -598,7 +598,7 @@ footer {
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
+  gap: 60px;
   margin-bottom: 40px;
 }
 
