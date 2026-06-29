@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Activități — Anti-Fraud Alliance</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .tabs-bar {
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      padding: 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .tabs-bar .container {
+      display: flex;
+      gap: 0;
+    }
+    .tab-btn {
+      padding: 18px 28px;
+      border: none;
+      background: none;
+      font-size: 14px;
+      font-weight: 700;
+      color: #777;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.25s;
+      font-family: inherit;
+      letter-spacing: 0.3px;
+    }
+    .tab-btn:hover { color: var(--albastru-inchis); }
+    .tab-btn.activ {
+      color: var(--albastru-inchis);
+      border-bottom-color: var(--auriu);
+    }
+
+    /* CARD EVENIMENT */
+    .card-eveniment {
+      background: #fff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+      transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-eveniment:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.13);
+    }
+    .card-ev-header {
+      padding: 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .data-box {
+      background: var(--albastru-inchis);
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 14px;
+      text-align: center;
+      min-width: 58px;
+      flex-shrink: 0;
+    }
+    .data-box .zi { font-size: 26px; font-weight: 900; line-height: 1; }
+    .data-box .luna { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--auriu); }
+    .data-box .an { font-size: 10px; opacity: 0.6; }
+    .ev-info h3 { color: var(--albastru-inchis); font-size: 17px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+    .ev-info .meta-ev { display: flex; flex-wrap: wrap; gap: 12px; }
+    .ev-info .meta-ev span { font-size: 12px; color: #888; }
+    .card-ev-body { padding: 20px 28px; flex: 1; }
+    .card-ev-body p { color: #666; font-size: 14px; line-height: 1.7; }
+    .card-ev-footer {
+      padding: 16px 28px;
+      background: var(--gri-deschis);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .status-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .status-badge.viitor { background: #e3f2fd; color: #1565c0; }
+    .status-badge.inscrieti { background: #e8f5e9; color: #2e7d32; }
+    .status-badge.trecut { background: #f5f5f5; color: #999; }
+    .btn-ev {
+      background: var(--albastru-inchis);
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    .btn-ev:hover { background: var(--auriu); color: var(--albastru-inchis); }
+
+    /* PROIECTE */
+    .proiect-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 35px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 25px;
+      align-items: start;
+      margin-bottom: 20px;
+      transition: all 0.3s;
+      border-left: 5px solid transparent;
+    }
+    .proiect-card:hover {
+      border-left-color: var(--auriu);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.10);
+    }
+    .proiect-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--albastru-inchis), var(--albastru-mediu));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+    }
+    .proiect-info h3 { color: var(--albastru-inchis); font-size: 19px; font-weight: 800; margin-bottom: 6px; }
+    .proiect-info .perioada { color: var(--auriu); font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+    .proiect-info p { color: #666; font-size: 14px; line-height: 1.7; margin-bottom: 14px; }
+    .proiect-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .proiect-tag {
+      background: var(--gri-deschis);
+      color: #555;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 10px;
+    }
+    .progress-bar {
+      background: #eee;
+      border-radius: 10px;
+      height: 6px;
+      margin: 12px 0 6px;
+      overflow: hidden;
+    }
+    .progress-bar .fill {
+      height: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--auriu), var(--auriu-deschis));
+    }
+
+    /* TIMELINE -->*/
+    .timeline { position: relative; padding-left: 30px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--auriu), #e0e0e0);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 35px;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -24px;
+      top: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--auriu);
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 2px var(--auriu);
+    }
+    .timeline-item .an-tl {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--auriu);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .timeline-item h4 { color: var(--albastru-inchis); font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .timeline-item p { color: #666; font-size: 14px; line-height: 1.6; }
+
+    /* COUNTER SECTION */
+    .counter-section {
+      background: linear-gradient(135deg, var(--albastru-inchis), var(--albastru-mediu));
+      padding: 60px 0;
+      text-align: center;
+      color: #fff;
+    }
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+    }
+    .counter-item .nr {
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--auriu);
+      display: block;
+    }
+    .counter-item .desc { font-size: 14px; opacity: 0.8; }
+
+    @media (max-width: 768px) {
+      .counter-grid { grid-template-columns: repeat(2,1fr); }
+      .proiect-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="container">
+      <a href="#">🇷🇴 Română</a>
+      <a href="#">🇬🇧 English</a>
+      <a href="#">🇷🇺 Русский</a>
+    </div>
+  </div>
+  <div class="container header-main">
+    <a href="index.html" class="logo">
+      <img src="images/logo-afa-alb.svg" alt="Anti-Fraud Alliance" style="height:60px; width:auto;" />
+    </a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Acasă</a></li>
+        <li><a href="despre-noi.html">Despre Noi</a></li>
+        <li><a href="activitati.html" class="activ">Activități</a></li>
+        <li><a href="resurse.html">Resurse</a></li>
+        <li><a href="stiri.html">Știri</a></li>
+        <li><a href="contact.html" class="btn-contact-nav">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Acasă</a> › Activități</div>
+    <h1>Activitățile Noastre</h1>
+    <p>Evenimente, proiecte și tot ce face AFA pentru a combate frauda</p>
+  </div>
+</section>
+
+<!-- TABS -->
+<div class="tabs-bar">
+  <div class="container">
+    <button class="tab-btn activ">📅 Evenimente</button>
+    <button class="tab-btn">🚀 Proiecte Active</button>
+    <button class="tab-btn">📜 Istoric</button>
+  </div>
+</div>
+
+<!-- COUNTER -->
+<section class="counter-section">
+  <div class="container">
+    <div class="counter-grid">
+      <div class="counter-item">
+        <span class="nr">47</span>
+        <span class="desc">Evenimente organizate</span>
+      </div>
+      <div class="counter-item">
+        <span class="nr">12</span>
+        <span class="desc">Proiecte finalizate</span>
+      </div>
+      <div class="counter-item">
+        <span class="nr">3.200+</span>
+        <span class="desc">Participanți instruiți</span>
+      </div>
+      <div class="counter-item">
+        <span class="nr">500+</span>
+        <span class="desc">Cazuri raportate</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENIMENTE VIITOARE -->
+<section class="sectiune">
+  <div class="container">
+    <div class="sectiune-titlu">
+      <div class="linie-deasupra"></div>
+      <h2>Evenimente Viitoare</h2>
+      <p>Seminare, conferințe și campanii la care te poți alătura</p>
+    </div>
+    <div class="grid-3">
+
+      <div class="card-eveniment">
+        <div class="card-ev-header">
+          <div class="data-box">
+            <div class="zi">15</div>
+            <div class="luna">Iulie</div>
+            <div class="an">2026</div>
+          </div>
+          <div class="ev-info">
+            <h3>Seminar: Cum recunoști o fraudă online</h3>
+            <div class="meta-ev">
+              <span>📍 Chișinău, Sala AFA</span>
+              <span>🕙 10:00 – 14:00</span>
+              <span>👥 50 locuri</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-ev-body">
+          <p>Seminar gratuit deschis publicului larg. Vei afla cum să identifici escrocherii online, phishing și fraude bancare. Certificat de participare inclus.</p>
+        </div>
+        <div class="card-ev-footer">
+          <span class="status-badge inscrieti">✅ Înregistrare deschisă</span>
+          <a href="contact.html" class="btn-ev">Înscrie-te</a>
+        </div>
+      </div>
+
+      <div class="card-eveniment">
+        <div class="card-ev-header">
+          <div class="data-box">
+            <div class="zi">22</div>
+            <div class="luna">Aug</div>
+            <div class="an">2026</div>
+          </div>
+          <div class="ev-info">
+            <h3>Conferință: Frauda financiară în era digitală</h3>
+            <div class="meta-ev">
+              <span>📍 Hotel Leogrand, Chișinău</span>
+              <span>🕙 09:00 – 17:00</span>
+              <span>👥 200 locuri</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-ev-body">
+          <p>Conferință națională cu experți din drept, finanțe și securitate cibernetică. Speakeri internaționali și studii de caz reale din Republica Moldova.</p>
+        </div>
+        <div class="card-ev-footer">
+          <span class="status-badge viitor">🔜 În curând</span>
+          <a href="contact.html" class="btn-ev">Detalii</a>
+        </div>
+      </div>
+
+      <div class="card-eveniment">
+        <div class="card-ev-header">
+          <div class="data-box">
+            <div class="zi">10</div>
+            <div class="luna">Sept</div>
+            <div class="an">2026</div>
+          </div>
+          <div class="ev-info">
+            <h3>Campanie: „Moldova fără Fraudă" — ediția IV</h3>
+            <div class="meta-ev">
+              <span>📍 Național (10 orașe)</span>
+              <span>🕙 Toată ziua</span>
+              <span>👥 Public larg</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-ev-body">
+          <p>Campanie de informare în 10 orașe din Moldova. Standuri informative, materiale gratuite și consiliere față în față cu experții AFA.</p>
+        </div>
+        <div class="card-ev-footer">
+          <span class="status-badge viitor">🔜 În curând</span>
+          <a href="contact.html" class="btn-ev">Detalii</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROIECTE ACTIVE -->
+<section class="sectiune sectiune-gri">
+  <div class="container">
+    <div class="sectiune-titlu">
+      <div class="linie-deasupra"></div>
+      <h2>Proiecte Active</h2>
+      <p>Inițiative în desfășurare cu impact real asupra comunității</p>
+    </div>
+
+    <div class="proiect-card">
+      <div class="proiect-icon">🛡️</div>
+      <div class="proiect-info">
+        <h3>Platforma Națională de Raportare a Fraudelor</h3>
+        <div class="perioada">📅 Ian 2026 — Dec 2026</div>
+        <p>Dezvoltăm o platformă online unde oricine poate raporta o fraudă în mod anonim și sigur. Datele sunt transmise automat autorităților competente și ajută la identificarea tiparelor criminale.</p>
+        <div class="progress-bar"><div class="fill" style="width:65%"></div></div>
+        <div style="font-size:12px; color:#999; margin-bottom:12px;">Progres: 65% — Lansare estimată: Octombrie 2026</div>
+        <div class="proiect-tags">
+          <span class="proiect-tag">Tehnologie</span>
+          <span class="proiect-tag">Raportare</span>
+          <span class="proiect-tag">Securitate</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proiect-card">
+      <div class="proiect-icon">📚</div>
+      <div class="proiect-info">
+        <h3>Educație Anti-Fraudă în Școli</h3>
+        <div class="perioada">📅 Sept 2025 — Iun 2027</div>
+        <p>Program educațional în 50 de licee din Moldova. Lecții interactive despre siguranța online, recunoașterea escrocheriilor și protecția datelor personale pentru elevi cu vârstele 14–18 ani.</p>
+        <div class="progress-bar"><div class="fill" style="width:40%"></div></div>
+        <div style="font-size:12px; color:#999; margin-bottom:12px;">Progres: 40% — 20 școli finalizate din 50</div>
+        <div class="proiect-tags">
+          <span class="proiect-tag">Educație</span>
+          <span class="proiect-tag">Tineret</span>
+          <span class="proiect-tag">Prevenire</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="proiect-card">
+      <div class="proiect-icon">🤝</div>
+      <div class="proiect-info">
+        <h3>Rețeaua Națională Anti-Fraudă</h3>
+        <div class="perioada">📅 Mar 2026 — Mar 2027</div>
+        <p>Creăm o rețea de ONG-uri, instituții și voluntari care colaborează pentru combaterea fraudei. Ședințe lunare, schimb de informații și acțiuni comune pe teren în toată țara.</p>
+        <div class="progress-bar"><div class="fill" style="width:30%"></div></div>
+        <div style="font-size:12px; color:#999; margin-bottom:12px;">Progres: 30% — 18 organizații partenere din 60 planificate</div>
+        <div class="proiect-tags">
+          <span class="proiect-tag">Parteneriat</span>
+          <span class="proiect-tag">Rețea</span>
+          <span class="proiect-tag">ONG</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ISTORIC / TIMELINE -->
+<section class="sectiune">
+  <div class="container">
+    <div class="sectiune-titlu">
+      <div class="linie-deasupra"></div>
+      <h2>Istoria Noastră</h2>
+      <p>12 ani de activitate și realizări în combaterea fraudei</p>
+    </div>
+    <div style="max-width:700px; margin:0 auto;">
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="an-tl">2012</div>
+          <h4>Fondarea Anti-Fraud Alliance</h4>
+          <p>AFA este înregistrată oficial ca asociație obstească cu misiunea de a combate fraudele financiare în Republica Moldova.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="an-tl">2014</div>
+          <h4>Primul raport național despre fraude</h4>
+          <p>Publicăm primul raport comprehensiv despre starea fraudelor financiare în Moldova — document citat de instituțiile statului.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="an-tl">2016</div>
+          <h4>Parteneriatul cu Poliția Națională</h4>
+          <p>Semnăm primul acord de colaborare cu Inspectoratul General al Poliției pentru schimb de informații și investigații comune.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="an-tl">2019</div>
+          <h4>Lansarea liniei antifraudă 24/7</h4>
+          <p>Deschidem o linie telefonică gratuită unde cetățenii pot raporta fraude și primi consiliere imediată de la experții noștri.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="an-tl">2021</div>
+          <h4>Afiliere la rețeaua INTERPOL</h4>
+          <p>AFA devine partener oficial al rețelei INTERPOL de combatere a criminalității financiare transfrontaliere.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="an-tl">2024</div>
+          <h4>Programul de educație în școli</h4>
+          <p>Lansăm programul „AFA în Școli" — primul program național de educație anti-fraudă pentru elevi din Moldova.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="an-tl">2026</div>
+          <h4>Platforma digitală de raportare</h4>
+          <p>În curs de dezvoltare — prima platformă online națională pentru raportarea anonimă a fraudelor, cu integrare directă cu autoritățile.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="banner-alerta">
+  <div class="container">
+    <h2>Vrei să contribui la activitățile noastre?</h2>
+    <p>Devino voluntar, donează sau propune un parteneriat. Fiecare ajutor contează.</p>
+    <a href="contact.html" class="btn-alb">Implică-te acum</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div style="margin-bottom:20px;">
+          <img src="images/logo-afa-alb.svg" alt="AFA" style="height:50px; width:auto;" />
+        </div>
+        <p>Organizație non-profit dedicată combaterii fraudelor financiare și protecției cetățenilor.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">f</a>
+          <a href="#" class="social-link">in</a>
+          <a href="#" class="social-link">t</a>
+          <a href="#" class="social-link">yt</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigare</h4>
+        <ul>
+          <li><a href="index.html">Acasă</a></li>
+          <li><a href="despre-noi.html">Despre Noi</a></li>
+          <li><a href="activitati.html">Activități</a></li>
+          <li><a href="resurse.html">Resurse</a></li>
+          <li><a href="stiri.html">Știri</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Informații</h4>
+        <ul>
+          <li><a href="#">Politica de confidențialitate</a></li>
+          <li><a href="#">Termeni și condiții</a></li>
+          <li><a href="#">GDPR</a></li>
+          <li><a href="#">Rapoarte anuale</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#">📍 Chișinău, Moldova</a></li>
+          <li><a href="#">📞 +373 XX XXX XXX</a></li>
+          <li><a href="#">✉️ contact@afa.md</a></li>
+        </ul>
+        <div style="margin-top:15px; padding:12px; background:rgba(200,168,75,0.15); border-radius:8px; border-left:3px solid #c8a84b;">
+          <div style="color:#c8a84b; font-size:12px; font-weight:700; margin-bottom:5px;">LINIE ANTIFRAUDĂ</div>
+          <div style="color:#fff; font-size:18px; font-weight:800;">0800 XXX XXX</div>
+          <div style="color:rgba(255,255,255,0.6); font-size:11px;">Gratuit · 24/7</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container" style="display:flex; justify-content:space-between; width:100%;">
+      <span>© 2026 Anti-Fraud Alliance. Toate drepturile rezervate.</span>
+      <span><a href="#">Politica de confidențialitate</a> · <a href="#">Termeni</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

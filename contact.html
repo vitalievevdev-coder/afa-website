@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Anti-Fraud Alliance</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 50px;
+      align-items: start;
+    }
+    .contact-info-card {
+      background: var(--albastru-inchis);
+      color: #fff;
+      border-radius: 16px;
+      padding: 40px 30px;
+    }
+    .contact-info-card h3 {
+      color: var(--auriu);
+      font-size: 20px;
+      margin-bottom: 25px;
+    }
+    .contact-item {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      align-items: flex-start;
+    }
+    .contact-item .icon {
+      width: 45px;
+      height: 45px;
+      background: rgba(200,168,75,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .contact-item .text strong {
+      display: block;
+      color: var(--auriu);
+      font-size: 13px;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .contact-item .text span {
+      font-size: 15px;
+    }
+    .hotline-box {
+      background: var(--auriu);
+      color: var(--albastru-inchis);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 25px;
+    }
+    .hotline-box .nr {
+      font-size: 28px;
+      font-weight: 900;
+    }
+    .contact-form {
+      background: #fff;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.08);
+    }
+    .contact-form h3 {
+      color: var(--albastru-inchis);
+      font-size: 22px;
+      margin-bottom: 25px;
+      font-weight: 800;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--albastru-inchis);
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      transition: border-color 0.3s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--auriu);
+    }
+    .form-group textarea {
+      height: 130px;
+      resize: vertical;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    .btn-submit {
+      background: var(--albastru-inchis);
+      color: #fff;
+      padding: 14px 35px;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+    }
+    .btn-submit:hover {
+      background: var(--auriu);
+      color: var(--albastru-inchis);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="container">
+      <a href="#">🇷🇴 Română</a>
+      <a href="#">🇬🇧 English</a>
+      <a href="#">🇷🇺 Русский</a>
+    </div>
+  </div>
+  <div class="container header-main">
+    <a href="index.html" class="logo">
+      <img src="images/logo-afa-alb.svg" alt="Anti-Fraud Alliance" style="height:60px; width:auto;" />
+    </a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Acasă</a></li>
+        <li><a href="despre-noi.html">Despre Noi</a></li>
+        <li><a href="activitati.html">Activități</a></li>
+        <li><a href="resurse.html">Resurse</a></li>
+        <li><a href="stiri.html">Știri</a></li>
+        <li><a href="contact.html" class="activ btn-contact-nav">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Acasă</a> › Contact</div>
+    <h1>Contactează-ne</h1>
+    <p>Suntem aici să te ajutăm. Scrie-ne sau sună-ne oricând.</p>
+  </div>
+</section>
+
+<section class="sectiune">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <div class="contact-info-card">
+          <h3>📍 Informații de Contact</h3>
+          <div class="contact-item">
+            <div class="icon">📍</div>
+            <div class="text">
+              <strong>Adresă</strong>
+              <span>Str. Exemplu nr. 1, Chișinău, MD-2001, Republica Moldova</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="icon">📞</div>
+            <div class="text">
+              <strong>Telefon</strong>
+              <span>+373 XX XXX XXX</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="icon">✉️</div>
+            <div class="text">
+              <strong>Email</strong>
+              <span>contact@afa.md</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="icon">🕒</div>
+            <div class="text">
+              <strong>Program</strong>
+              <span>Luni – Vineri: 9:00 – 17:00</span>
+            </div>
+          </div>
+          <div class="hotline-box">
+            <div style="font-size:13px;font-weight:700;margin-bottom:5px;">🆘 LINIE ANTIFRAUDĂ GRATUITĂ</div>
+            <div class="nr">0800 XXX XXX</div>
+            <div style="font-size:12px;margin-top:5px;">Disponibil 24/7 · Apel gratuit</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h3>Trimite-ne un Mesaj</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Numele tău *</label>
+            <input type="text" placeholder="Ion Popescu" />
+          </div>
+          <div class="form-group">
+            <label>Email *</label>
+            <input type="email" placeholder="ion@email.com" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Telefon</label>
+          <input type="tel" placeholder="+373 XX XXX XXX" />
+        </div>
+        <div class="form-group">
+          <label>Subiect *</label>
+          <select>
+            <option value="">— Alege subiectul —</option>
+            <option>Raportare fraudă</option>
+            <option>Solicit consiliere juridică</option>
+            <option>Vreau să devin voluntar</option>
+            <option>Parteneriat instituțional</option>
+            <option>Altă întrebare</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mesajul tău *</label>
+          <textarea placeholder="Descrie situația ta sau întrebarea pe care o ai..."></textarea>
+        </div>
+        <button class="btn-submit">✉️ Trimite Mesajul</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+          <div class="logo-icon" style="width:50px;height:50px;font-size:18px;">AFA</div>
+          <div>
+            <div style="color:#fff;font-weight:800;font-size:16px;">Anti-Fraud Alliance</div>
+            <div style="color:#c8a84b;font-size:11px;letter-spacing:1px;">ASOCIAȚIA OBSTEASCĂ</div>
+          </div>
+        </div>
+        <p>Organizație non-profit dedicată combaterii fraudelor financiare.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigare</h4>
+        <ul>
+          <li><a href="index.html">Acasă</a></li>
+          <li><a href="despre-noi.html">Despre Noi</a></li>
+          <li><a href="activitati.html">Activități</a></li>
+          <li><a href="resurse.html">Resurse</a></li>
+          <li><a href="stiri.html">Știri</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Informații</h4>
+        <ul>
+          <li><a href="#">Politica de confidențialitate</a></li>
+          <li><a href="#">Termeni și condiții</a></li>
+          <li><a href="#">GDPR</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#">📍 Chișinău, Moldova</a></li>
+          <li><a href="#">📞 +373 XX XXX XXX</a></li>
+          <li><a href="#">✉️ contact@afa.md</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container" style="display:flex;justify-content:space-between;width:100%;">
+      <span>© 2026 Anti-Fraud Alliance. Toate drepturile rezervate.</span>
+      <span><a href="#">Politica de confidențialitate</a> · <a href="#">Termeni</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

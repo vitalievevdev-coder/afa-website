@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin — Anti-Fraud Alliance</title>
+  <style>
+    :root {
+      --albastru: #0a2342;
+      --albastru-m: #1a4a8a;
+      --auriu: #c8a84b;
+      --auriu-d: #e8c96a;
+      --verde: #2e7d32;
+      --rosu: #c62828;
+      --gri: #f5f7fa;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Segoe UI', Arial, sans-serif; background:var(--gri); color:#333; }
+
+    /* ===== LOGIN ===== */
+    #ecran-login {
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(135deg, var(--albastru) 0%, var(--albastru-m) 100%);
+    }
+    .login-box {
+      background:#fff;
+      border-radius:20px;
+      padding:50px 40px;
+      width:100%;
+      max-width:420px;
+      box-shadow:0 20px 60px rgba(0,0,0,0.3);
+      text-align:center;
+    }
+    .login-logo {
+      width:70px; height:70px;
+      background:var(--albastru);
+      border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      margin:0 auto 20px;
+      font-size:26px; font-weight:900; color:var(--auriu);
+    }
+    .login-box h2 { color:var(--albastru); font-size:22px; margin-bottom:5px; }
+    .login-box p  { color:#999; font-size:14px; margin-bottom:30px; }
+    .form-group { margin-bottom:18px; text-align:left; }
+    .form-group label { display:block; font-size:13px; font-weight:700; color:var(--albastru); margin-bottom:6px; }
+    .form-group input {
+      width:100%; padding:12px 16px;
+      border:2px solid #e0e0e0; border-radius:10px;
+      font-size:15px; font-family:inherit; outline:none;
+      transition:border-color 0.2s;
+    }
+    .form-group input:focus { border-color:var(--auriu); }
+    .btn-login {
+      width:100%; padding:14px;
+      background:var(--albastru); color:#fff;
+      border:none; border-radius:10px;
+      font-size:16px; font-weight:700; cursor:pointer;
+      font-family:inherit; transition:all 0.3s;
+      margin-top:5px;
+    }
+    .btn-login:hover { background:var(--auriu); color:var(--albastru); }
+    .eroare-login {
+      background:#ffebee; color:var(--rosu);
+      padding:10px 16px; border-radius:8px;
+      font-size:14px; margin-bottom:15px;
+      display:none;
+    }
+
+    /* ===== ADMIN PANEL ===== */
+    #ecran-admin { display:none; min-height:100vh; }
+
+    .admin-header {
+      background:var(--albastru);
+      padding:0 30px;
+      display:flex; align-items:center;
+      justify-content:space-between;
+      height:65px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.3);
+      position:sticky; top:0; z-index:100;
+    }
+    .admin-header .brand {
+      display:flex; align-items:center; gap:12px;
+      color:#fff; font-weight:800; font-size:16px;
+    }
+    .admin-header .brand span { color:var(--auriu); font-size:12px; font-weight:400; }
+    .header-actions { display:flex; gap:12px; align-items:center; }
+    .btn-header {
+      padding:8px 18px; border-radius:20px;
+      font-size:13px; font-weight:700; cursor:pointer;
+      font-family:inherit; border:none; transition:all 0.2s;
+    }
+    .btn-site  { background:rgba(255,255,255,0.1); color:#fff; }
+    .btn-site:hover { background:rgba(255,255,255,0.2); }
+    .btn-logout { background:var(--auriu); color:var(--albastru); }
+    .btn-logout:hover { background:var(--auriu-d); }
+
+    .admin-body { display:grid; grid-template-columns:240px 1fr; min-height:calc(100vh - 65px); }
+
+    /* SIDEBAR */
+    .sidebar {
+      background:#fff;
+      border-right:1px solid #eee;
+      padding:25px 0;
+    }
+    .sidebar-menu { list-style:none; }
+    .sidebar-menu li a {
+      display:flex; align-items:center; gap:12px;
+      padding:13px 25px;
+      color:#555; text-decoration:none;
+      font-size:14px; font-weight:600;
+      transition:all 0.2s;
+      border-left:3px solid transparent;
+    }
+    .sidebar-menu li a:hover { background:var(--gri); color:var(--albastru); }
+    .sidebar-menu li a.activ {
+      background:#e8f0fb; color:var(--albastru);
+      border-left-color:var(--auriu);
+    }
+    .sidebar-menu li a .icon { font-size:18px; width:22px; }
+    .sidebar-separator {
+      margin:15px 25px; border:none;
+      border-top:1px solid #eee;
+    }
+    .sidebar-label {
+      padding:10px 25px 5px;
+      font-size:10px; font-weight:700;
+      color:#bbb; letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    /* CONTINUT PRINCIPAL */
+    .main-content { padding:30px; overflow-y:auto; }
+
+    /* ECRANE */
+    .ecran { display:none; }
+    .ecran.activ { display:block; }
+
+    /* DASHBOARD */
+    .stats-grid {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:20px; margin-bottom:30px;
+    }
+    .stat-box {
+      background:#fff; border-radius:12px;
+      padding:22px; box-shadow:0 2px 10px rgba(0,0,0,0.06);
+      border-left:4px solid var(--auriu);
+    }
+    .stat-box .nr { font-size:32px; font-weight:900; color:var(--albastru); }
+    .stat-box .label { font-size:13px; color:#999; margin-top:3px; }
+
+    /* TABEL STIRI */
+    .panel {
+      background:#fff; border-radius:12px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.06);
+      overflow:hidden; margin-bottom:25px;
+    }
+    .panel-header {
+      padding:18px 25px;
+      display:flex; align-items:center;
+      justify-content:space-between;
+      border-bottom:1px solid #f0f0f0;
+    }
+    .panel-header h3 { font-size:16px; color:var(--albastru); font-weight:800; }
+    .btn-nou {
+      background:var(--albastru); color:#fff;
+      padding:9px 20px; border-radius:20px;
+      border:none; font-size:13px; font-weight:700;
+      cursor:pointer; font-family:inherit;
+      transition:all 0.2s;
+    }
+    .btn-nou:hover { background:var(--auriu); color:var(--albastru); }
+    table { width:100%; border-collapse:collapse; }
+    th {
+      background:var(--gri); padding:12px 18px;
+      text-align:left; font-size:12px;
+      font-weight:700; color:#888;
+      text-transform:uppercase; letter-spacing:1px;
+    }
+    td { padding:14px 18px; border-bottom:1px solid #f5f5f5; font-size:14px; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    .badge-cat {
+      font-size:11px; font-weight:700;
+      padding:3px 10px; border-radius:10px;
+      letter-spacing:1px; text-transform:uppercase;
+    }
+    .badge-cat.alerta    { background:#ffebee; color:#c62828; }
+    .badge-cat.eveniment { background:#e3f2fd; color:#1565c0; }
+    .badge-cat.raport    { background:#f3e5f5; color:#7b1fa2; }
+    .badge-cat.stire     { background:#e8f5e9; color:#2e7d32; }
+    .badge-cat.international { background:#fff8e1; color:#e65100; }
+    .btn-actiune {
+      padding:5px 12px; border-radius:8px;
+      border:none; font-size:12px; font-weight:700;
+      cursor:pointer; font-family:inherit;
+      transition:all 0.2s; margin-right:5px;
+    }
+    .btn-editeaza { background:#e3f2fd; color:#1565c0; }
+    .btn-editeaza:hover { background:#1565c0; color:#fff; }
+    .btn-sterge { background:#ffebee; color:#c62828; }
+    .btn-sterge:hover { background:#c62828; color:#fff; }
+    .badge-principal {
+      background:var(--auriu); color:var(--albastru);
+      font-size:10px; font-weight:700; padding:2px 8px;
+      border-radius:8px; margin-left:6px;
+    }
+
+    /* FORMULAR STIRE */
+    .form-stire { padding:25px; }
+    .form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .form-row-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+
+    /* UPLOAD FOTO */
+    .zona-upload {
+      border:2px dashed #d0d0d0; border-radius:12px;
+      padding:30px; text-align:center; cursor:pointer;
+      transition:all 0.3s; background:#fafafa; position:relative;
+    }
+    .zona-upload:hover { border-color:var(--auriu); background:#fffdf5; }
+    .zona-upload input[type=file] {
+      position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%;
+    }
+    .zona-upload .icon-upload { font-size:36px; margin-bottom:10px; }
+    .zona-upload p { font-size:14px; color:#999; margin:0; }
+    .zona-upload strong { color:var(--albastru); }
+    .preview-foto {
+      position:relative; display:none;
+      border-radius:10px; overflow:hidden;
+      margin-top:12px; max-height:220px;
+    }
+    .preview-foto img { width:100%; height:220px; object-fit:cover; display:block; }
+    .preview-foto .btn-rm-foto {
+      position:absolute; top:8px; right:8px;
+      background:rgba(0,0,0,0.6); color:#fff;
+      border:none; border-radius:50%; width:30px; height:30px;
+      font-size:16px; cursor:pointer; line-height:1;
+    }
+    .progress-upload {
+      height:5px; background:#e0e0e0; border-radius:5px;
+      margin-top:8px; overflow:hidden; display:none;
+    }
+    .progress-upload .bar {
+      height:100%; background:var(--verde);
+      border-radius:5px; width:0; transition:width 0.4s;
+    }
+
+    /* VIDEO EMBED PREVIEW */
+    .video-preview {
+      margin-top:10px; border-radius:10px;
+      overflow:hidden; display:none; background:#000;
+    }
+    .video-preview iframe { width:100%; height:200px; border:none; display:block; }
+    .video-badge {
+      display:inline-flex; align-items:center; gap:6px;
+      font-size:11px; font-weight:700; padding:3px 10px;
+      border-radius:10px; margin-bottom:6px;
+    }
+    .video-badge.youtube { background:#ffebee; color:#c62828; }
+    .video-badge.facebook { background:#e3f2fd; color:#1565c0; }
+    .camp { margin-bottom:20px; }
+    .camp label {
+      display:block; font-size:13px; font-weight:700;
+      color:var(--albastru); margin-bottom:7px;
+    }
+    .camp input, .camp select, .camp textarea {
+      width:100%; padding:11px 15px;
+      border:2px solid #e0e0e0; border-radius:9px;
+      font-size:14px; font-family:inherit;
+      outline:none; transition:border-color 0.2s;
+    }
+    .camp input:focus, .camp select:focus, .camp textarea:focus {
+      border-color:var(--auriu);
+    }
+    .camp textarea { height:180px; resize:vertical; }
+    .camp .hint { font-size:12px; color:#bbb; margin-top:5px; }
+    .form-actiuni {
+      display:flex; gap:12px; align-items:center;
+      padding:20px 25px;
+      border-top:1px solid #f0f0f0;
+      background:#fafafa;
+    }
+    .btn-publica {
+      background:var(--verde); color:#fff;
+      padding:12px 30px; border-radius:25px;
+      border:none; font-size:15px; font-weight:700;
+      cursor:pointer; font-family:inherit;
+      transition:all 0.3s;
+    }
+    .btn-publica:hover { background:#1b5e20; transform:translateY(-1px); }
+    .btn-anuleaza {
+      background:var(--gri); color:#555;
+      padding:12px 25px; border-radius:25px;
+      border:none; font-size:15px; font-weight:700;
+      cursor:pointer; font-family:inherit;
+    }
+    .btn-anuleaza:hover { background:#e0e0e0; }
+
+    /* SETARI */
+    .setari-grid { display:grid; grid-template-columns:1fr 1fr; gap:25px; }
+    .setari-box {
+      background:#fff; border-radius:12px;
+      padding:25px; box-shadow:0 2px 10px rgba(0,0,0,0.06);
+    }
+    .setari-box h4 {
+      color:var(--albastru); font-size:15px; font-weight:800;
+      margin-bottom:20px; padding-bottom:10px;
+      border-bottom:2px solid var(--auriu);
+    }
+
+    /* NOTIFICARE */
+    .notificare {
+      position:fixed; bottom:25px; right:25px;
+      padding:14px 22px; border-radius:12px;
+      font-size:14px; font-weight:700;
+      box-shadow:0 5px 20px rgba(0,0,0,0.2);
+      z-index:9999; transform:translateY(100px);
+      transition:transform 0.4s; pointer-events:none;
+    }
+    .notificare.arata { transform:translateY(0); }
+    .notificare.succes { background:var(--verde); color:#fff; }
+    .notificare.eroare { background:var(--rosu); color:#fff; }
+    .notificare.info   { background:var(--albastru); color:#fff; }
+
+    /* STATUS GITHUB */
+    .github-status {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:6px 14px; border-radius:20px;
+      font-size:12px; font-weight:700;
+    }
+    .github-status.conectat  { background:#e8f5e9; color:#2e7d32; }
+    .github-status.deconectat { background:#ffebee; color:#c62828; }
+
+    @media(max-width:900px) {
+      .admin-body { grid-template-columns:1fr; }
+      .sidebar { display:none; }
+      .stats-grid { grid-template-columns:1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== ECRAN LOGIN ===== -->
+<div id="ecran-login">
+  <div class="login-box">
+    <div class="login-logo">AFA</div>
+    <h2>Panou de Administrare</h2>
+    <p>Autentifică-te pentru a gestiona știrile</p>
+    <div class="eroare-login" id="eroare-login">Utilizator sau parolă incorecte!</div>
+    <div class="form-group">
+      <label>Utilizator</label>
+      <input type="text" id="inp-user" placeholder="admin" autocomplete="username"/>
+    </div>
+    <div class="form-group">
+      <label>Parolă</label>
+      <input type="password" id="inp-parola" placeholder="••••••••" autocomplete="current-password"/>
+    </div>
+    <button class="btn-login" onclick="autentificare()">Intră în panou →</button>
+  </div>
+</div>
+
+<!-- ===== ECRAN ADMIN ===== -->
+<div id="ecran-admin">
+
+  <!-- HEADER -->
+  <div class="admin-header">
+    <div class="brand">
+      <div style="width:38px;height:38px;background:var(--auriu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--albastru);font-weight:900;">AFA</div>
+      <div>
+        Admin Panel
+        <br/><span>Anti-Fraud Alliance</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span id="status-gh" class="github-status deconectat">⚪ GitHub neconectat</span>
+      <button class="btn-header btn-site" onclick="window.open('index.html','_blank')">🌐 Vezi site-ul</button>
+      <button class="btn-header btn-logout" onclick="logout()">Ieși ↗</button>
+    </div>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-label">Meniu principal</div>
+      <ul class="sidebar-menu">
+        <li><a href="#" class="activ" onclick="aratEcran('dashboard',this)"><span class="icon">📊</span> Dashboard</a></li>
+        <li><a href="#" onclick="aratEcran('stiri',this)"><span class="icon">📰</span> Știri</a></li>
+        <li><a href="#" onclick="aratEcran('stire-noua',this)"><span class="icon">✏️</span> Știre nouă</a></li>
+      </ul>
+      <hr class="sidebar-separator"/>
+      <div class="sidebar-label">Configurare</div>
+      <ul class="sidebar-menu">
+        <li><a href="#" onclick="aratEcran('setari',this)"><span class="icon">⚙️</span> Setări</a></li>
+      </ul>
+    </div>
+
+    <!-- CONTINUT -->
+    <div class="main-content">
+
+      <!-- DASHBOARD -->
+      <div id="ecran-dashboard" class="ecran activ">
+        <h2 style="color:var(--albastru);margin-bottom:8px;">Bun venit în Admin!</h2>
+        <p style="color:#999;margin-bottom:25px;">Gestionează știrile site-ului Anti-Fraud Alliance</p>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="nr" id="total-stiri">0</div>
+            <div class="label">Total știri</div>
+          </div>
+          <div class="stat-box" style="border-left-color:#d32f2f;">
+            <div class="nr" id="total-alerte">0</div>
+            <div class="label">Alerte fraudă</div>
+          </div>
+          <div class="stat-box" style="border-left-color:#1565c0;">
+            <div class="nr" id="total-evenimente">0</div>
+            <div class="label">Evenimente</div>
+          </div>
+          <div class="stat-box" style="border-left-color:#2e7d32;">
+            <div class="nr" id="total-publicate">0</div>
+            <div class="label">Publicate azi</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>📰 Ultimele știri adăugate</h3>
+            <button class="btn-nou" onclick="aratEcran('stire-noua', document.querySelector('.sidebar-menu li:nth-child(3) a'))">+ Știre nouă</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Titlu</th>
+                <th>Categorie</th>
+                <th>Data</th>
+                <th>Acțiuni</th>
+              </tr>
+            </thead>
+            <tbody id="tabel-dashboard"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- LISTA STIRI -->
+      <div id="ecran-stiri" class="ecran">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;">
+          <div>
+            <h2 style="color:var(--albastru);margin-bottom:4px;">Toate Știrile</h2>
+            <p style="color:#999;font-size:14px;">Gestionează și publică știri pe site</p>
+          </div>
+          <button class="btn-nou" onclick="aratEcran('stire-noua', document.querySelector('.sidebar-menu li:nth-child(3) a'))">+ Știre nouă</button>
+        </div>
+        <div class="panel">
+          <table>
+            <thead>
+              <tr>
+                <th>Emoji</th>
+                <th>Titlu</th>
+                <th>Categorie</th>
+                <th>Data</th>
+                <th>Principal</th>
+                <th>Acțiuni</th>
+              </tr>
+            </thead>
+            <tbody id="tabel-stiri"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- STIRE NOUA / EDITARE -->
+      <div id="ecran-stire-noua" class="ecran">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;">
+          <div>
+            <h2 style="color:var(--albastru);margin-bottom:4px;" id="titlu-formular">Știre Nouă</h2>
+            <p style="color:#999;font-size:14px;">Completează câmpurile și publică pe site</p>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="form-stire">
+            <input type="hidden" id="stire-id" value=""/>
+            <input type="hidden" id="stire-foto-url" value=""/>
+
+            <!-- RAND 1: titlu -->
+            <div class="camp">
+              <label>Titlul știrii *</label>
+              <input type="text" id="stire-titlu" placeholder="Ex: Alertă — Nouă schemă de phishing vizează clienții băncilor"/>
+            </div>
+
+            <!-- RAND 2: categorie, emoji, data, autor -->
+            <div class="form-row-3">
+              <div class="camp">
+                <label>Categorie *</label>
+                <select id="stire-categorie">
+                  <option value="alerta">🚨 Alertă Fraudă</option>
+                  <option value="eveniment">📅 Eveniment</option>
+                  <option value="raport">📋 Raport</option>
+                  <option value="stire">📰 Știre AFA</option>
+                  <option value="international">🌍 Internațional</option>
+                </select>
+              </div>
+              <div class="camp">
+                <label>Emoji reprezentativ</label>
+                <input type="text" id="stire-emoji" placeholder="🔐 📱 💰 🎓" value="📰"/>
+                <div class="hint">Un singur emoji pentru imagine lipsă</div>
+              </div>
+              <div class="camp">
+                <label>Data publicării *</label>
+                <input type="date" id="stire-data"/>
+              </div>
+            </div>
+
+            <!-- RAND 3: foto + video (2 coloane) -->
+            <div class="form-row-2" style="margin-bottom:20px;">
+
+              <!-- FOTO -->
+              <div class="camp" style="margin-bottom:0;">
+                <label>📷 Fotografie</label>
+                <div class="zona-upload" id="zona-upload" onclick="document.getElementById('inp-foto').click()">
+                  <input type="file" id="inp-foto" accept="image/*" onchange="previzualizeazaFoto(this)" onclick="event.stopPropagation()"/>
+                  <div class="icon-upload">🖼️</div>
+                  <p><strong>Apasă pentru a alege o fotografie</strong></p>
+                  <p>JPG, PNG, WEBP — max 5MB</p>
+                </div>
+                <div class="preview-foto" id="preview-foto">
+                  <img id="img-preview" src="" alt="preview"/>
+                  <button class="btn-rm-foto" onclick="stergePoза()">✕</button>
+                </div>
+                <div class="progress-upload" id="progress-upload">
+                  <div class="bar" id="progress-bar"></div>
+                </div>
+              </div>
+
+              <!-- VIDEO -->
+              <div class="camp" style="margin-bottom:0;">
+                <label>🎬 Video (opțional)</label>
+                <div style="margin-bottom:12px;">
+                  <span class="video-badge youtube">▶ YouTube</span>
+                  <input type="url" id="stire-youtube"
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    oninput="previzualizeazaVideo(this.value,'youtube')"
+                    style="border:2px solid #e0e0e0;border-radius:9px;padding:10px 14px;width:100%;font-size:13px;font-family:inherit;outline:none;"/>
+                </div>
+                <div>
+                  <span class="video-badge facebook">▶ Facebook</span>
+                  <input type="url" id="stire-facebook"
+                    placeholder="https://www.facebook.com/watch?v=..."
+                    oninput="previzualizeazaVideo(this.value,'facebook')"
+                    style="border:2px solid #e0e0e0;border-radius:9px;padding:10px 14px;width:100%;font-size:13px;font-family:inherit;outline:none;"/>
+                </div>
+                <div class="video-preview" id="video-preview">
+                  <iframe id="video-iframe" src="" allowfullscreen></iframe>
+                </div>
+              </div>
+            </div>
+
+            <!-- CONTINUT -->
+            <div class="camp">
+              <label>Conținut / Rezumat *</label>
+              <textarea id="stire-continut" placeholder="Scrie conținutul știrii sau un rezumat (2-4 propoziții)..."></textarea>
+            </div>
+
+            <!-- AUTOR + PRINCIPAL -->
+            <div class="form-row-2">
+              <div class="camp">
+                <label>Autor</label>
+                <input type="text" id="stire-autor" value="Echipa AFA"/>
+              </div>
+              <div class="camp" style="display:flex;align-items:center;gap:12px;padding-top:28px;">
+                <input type="checkbox" id="stire-principal" style="width:18px;height:18px;cursor:pointer;"/>
+                <label for="stire-principal" style="cursor:pointer;margin-bottom:0;font-size:14px;">
+                  ⭐ Afișează ca știre principală
+                </label>
+              </div>
+            </div>
+
+          </div>
+          <div class="form-actiuni">
+            <button class="btn-publica" onclick="salveazaSiPublica()">🚀 Publică pe site</button>
+            <button class="btn-anuleaza" onclick="aratEcran('stiri', document.querySelector('.sidebar-menu li:nth-child(2) a'))">Anulează</button>
+            <span id="status-publicare" style="font-size:13px;color:#999;margin-left:10px;"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETARI -->
+      <div id="ecran-setari" class="ecran">
+        <h2 style="color:var(--albastru);margin-bottom:8px;">Setări</h2>
+        <p style="color:#999;margin-bottom:25px;">Configurează accesul și conexiunea la GitHub</p>
+        <div class="setari-grid">
+
+          <div class="setari-box">
+            <h4>🔐 Schimbă parola de admin</h4>
+            <div class="camp">
+              <label>Parola curentă</label>
+              <input type="password" id="set-parola-veche" placeholder="••••••••"/>
+            </div>
+            <div class="camp">
+              <label>Parola nouă</label>
+              <input type="password" id="set-parola-noua" placeholder="••••••••"/>
+            </div>
+            <div class="camp">
+              <label>Confirmă parola nouă</label>
+              <input type="password" id="set-parola-conf" placeholder="••••••••"/>
+            </div>
+            <button class="btn-nou" onclick="schimbaParola()">Salvează parola</button>
+          </div>
+
+          <div class="setari-box">
+            <h4>🐙 Conexiune GitHub</h4>
+            <p style="font-size:13px;color:#888;margin-bottom:15px;">
+              Token-ul GitHub permite publicarea automată a știrilor pe site. Fără token, știrile se salvează doar local.
+            </p>
+            <div class="camp">
+              <label>GitHub Token</label>
+              <input type="password" id="set-gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"/>
+              <div class="hint">Token-ul se salvează doar în browserul tău (localStorage)</div>
+            </div>
+            <div class="camp">
+              <label>Utilizator GitHub</label>
+              <input type="text" id="set-gh-user" value="vitalievevdev-coder"/>
+            </div>
+            <div class="camp">
+              <label>Nume repository</label>
+              <input type="text" id="set-gh-repo" value="afa-website"/>
+            </div>
+            <button class="btn-nou" onclick="salveazaSetariGH()">Salvează și conectează</button>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- end main-content -->
+  </div><!-- end admin-body -->
+</div><!-- end ecran-admin -->
+
+<!-- NOTIFICARE -->
+<div class="notificare" id="notificare"></div>
+
+<!-- MODAL SETUP PRIMA DATA -->
+<div id="modal-setup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;display:none;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;padding:40px;max-width:460px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="text-align:center;margin-bottom:20px;">
+      <div style="font-size:40px;">🔑</div>
+      <h3 style="color:#0a2342;font-size:20px;margin-bottom:6px;">Configurare GitHub</h3>
+      <p style="color:#999;font-size:14px;">Introdu token-ul GitHub pentru a putea publica știri pe site</p>
+    </div>
+    <div style="margin-bottom:16px;">
+      <label style="display:block;font-size:13px;font-weight:700;color:#0a2342;margin-bottom:6px;">Token GitHub</label>
+      <input type="password" id="modal-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+        style="width:100%;padding:12px 15px;border:2px solid #e0e0e0;border-radius:9px;font-size:14px;font-family:inherit;outline:none;"/>
+      <div style="font-size:12px;color:#aaa;margin-top:5px;">Token-ul tău este: ghp_i1FEt5... (verifică în setările GitHub)</div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="salveazaTokenModal()" style="flex:1;background:#0a2342;color:#fff;border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;">
+        ✅ Salvează și continuă
+      </button>
+      <button onclick="inchideModal()" style="background:#f5f5f5;color:#555;border:none;border-radius:10px;padding:13px 18px;font-size:15px;cursor:pointer;font-family:inherit;">
+        Mai târziu
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== DATE =====
+const CREDENTIALE_DEFAULT = { user: 'admin', parola: 'afa2026' };
+let stiriDate = [];
+
+// ===== INITIALIZARE =====
+window.onload = () => {
+  // seteaza data de azi in formular
+  document.getElementById('stire-data').value = new Date().toISOString().split('T')[0];
+
+  // verifica daca e logat
+  if (localStorage.getItem('afa_logat') === 'da') {
+    aratAdmin();
+  }
+
+  // incarca setari GitHub
+  const token = localStorage.getItem('gh_token');
+  const user  = localStorage.getItem('gh_user')  || 'vitalievevdev-coder';
+  const repo  = localStorage.getItem('gh_repo')  || 'afa-website';
+  if (token) {
+    document.getElementById('set-gh-token').value = token;
+    actualizeazaStatusGH(true);
+  }
+  document.getElementById('set-gh-user').value = user;
+  document.getElementById('set-gh-repo').value = repo;
+
+  // incarca stiri
+  incarcaStiri();
+
+  // enter pe login
+  document.getElementById('inp-parola').addEventListener('keypress', e => {
+    if (e.key === 'Enter') autentificare();
+  });
+};
+
+// ===== LOGIN =====
+function autentificare() {
+  const user   = document.getElementById('inp-user').value.trim();
+  const parola = document.getElementById('inp-parola').value;
+  const credSalvate = JSON.parse(localStorage.getItem('afa_credentiale') || JSON.stringify(CREDENTIALE_DEFAULT));
+
+  if (user === credSalvate.user && parola === credSalvate.parola) {
+    localStorage.setItem('afa_logat', 'da');
+    document.getElementById('eroare-login').style.display = 'none';
+    aratAdmin();
+  } else {
+    document.getElementById('eroare-login').style.display = 'block';
+    document.getElementById('inp-parola').value = '';
+  }
+}
+
+function logout() {
+  localStorage.removeItem('afa_logat');
+  document.getElementById('ecran-admin').style.display = 'none';
+  document.getElementById('ecran-login').style.display = 'flex';
+  document.getElementById('inp-user').value = '';
+  document.getElementById('inp-parola').value = '';
+}
+
+function aratAdmin() {
+  document.getElementById('ecran-login').style.display = 'none';
+  document.getElementById('ecran-admin').style.display = 'block';
+  actualizeazaDashboard();
+  // arata setup modal daca nu e configurat tokenul
+  if (!localStorage.getItem('gh_token')) {
+    setTimeout(() => {
+      document.getElementById('modal-setup').style.display = 'flex';
+    }, 500);
+  }
+}
+
+function salveazaTokenModal() {
+  const token = document.getElementById('modal-token').value.trim();
+  if (!token) { aratNotificare('Introdu token-ul!', 'eroare'); return; }
+  localStorage.setItem('gh_token', token);
+  localStorage.setItem('gh_user', 'vitalievevdev-coder');
+  localStorage.setItem('gh_repo', 'afa-website');
+  document.getElementById('set-gh-token').value = token;
+  actualizeazaStatusGH(true);
+  inchideModal();
+  incarcaStiri();
+  aratNotificare('✅ GitHub configurat! Poți publica știri acum.', 'succes');
+}
+
+function inchideModal() {
+  document.getElementById('modal-setup').style.display = 'none';
+}
+
+// ===== NAVIGARE =====
+function aratEcran(nume, linkEl) {
+  document.querySelectorAll('.ecran').forEach(e => e.classList.remove('activ'));
+  document.getElementById('ecran-' + nume).classList.add('activ');
+  document.querySelectorAll('.sidebar-menu li a').forEach(a => a.classList.remove('activ'));
+  if (linkEl) linkEl.classList.add('activ');
+  if (nume === 'stire-noua') {
+    document.getElementById('titlu-formular').textContent = 'Știre Nouă';
+    document.getElementById('stire-id').value      = '';
+    document.getElementById('stire-titlu').value   = '';
+    document.getElementById('stire-continut').value= '';
+    document.getElementById('stire-emoji').value   = '📰';
+    document.getElementById('stire-autor').value   = 'Echipa AFA';
+    document.getElementById('stire-principal').checked = false;
+    document.getElementById('stire-data').value    = new Date().toISOString().split('T')[0];
+    document.getElementById('stire-youtube').value = '';
+    document.getElementById('stire-facebook').value= '';
+    document.getElementById('stire-foto-url').value= '';
+    document.getElementById('status-publicare').textContent = '';
+    document.getElementById('video-preview').style.display = 'none';
+    document.getElementById('video-iframe').src = '';
+    stergePoза();
+  }
+  return false;
+}
+
+// ===== INCARCA STIRI =====
+async function incarcaStiri() {
+  // incearca din GitHub, altfel din localStorage, altfel default
+  const token = localStorage.getItem('gh_token');
+  const user  = localStorage.getItem('gh_user')  || 'vitalievevdev-coder';
+  const repo  = localStorage.getItem('gh_repo')  || 'afa-website';
+
+  if (token) {
+    try {
+      const r = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/data/stiri.json`, {
+        headers: { 'Authorization': `token ${token}` }
+      });
+      if (r.ok) {
+        const d = await r.json();
+        stiriDate = JSON.parse(atob(d.content.replace(/\n/g,'')));
+        actualizeazaTabele();
+        return;
+      }
+    } catch(e) {}
+  }
+
+  // localStorage fallback
+  const local = localStorage.getItem('afa_stiri');
+  if (local) {
+    stiriDate = JSON.parse(local);
+  } else {
+    // date default
+    stiriDate = [
+      { id:1, titlu:'Val nou de fraude bancare prin SMS', continut:'Infractorii trimit mesaje SMS care imită băncile naționale.', categorie:'alerta', emoji:'🔐', data:'2026-06-27', autor:'Echipa AFA', principal:true },
+      { id:2, titlu:'Seminar gratuit AFA: Cum să recunoști o fraudă', continut:'Seminar deschis publicului larg pe 15 iulie 2026 la Chișinău.', categorie:'eveniment', emoji:'🎓', data:'2026-06-20', autor:'Echipa AFA', principal:false }
+    ];
+  }
+  actualizeazaTabele();
+}
+
+// ===== ACTUALIZEAZA UI =====
+function actualizeazaTabele() {
+  actualizeazaDashboard();
+  actualizeazaTabelStiri();
+}
+
+function actualizeazaDashboard() {
+  if (!stiriDate.length) return;
+  document.getElementById('total-stiri').textContent    = stiriDate.length;
+  document.getElementById('total-alerte').textContent   = stiriDate.filter(s => s.categorie === 'alerta').length;
+  document.getElementById('total-evenimente').textContent = stiriDate.filter(s => s.categorie === 'eveniment').length;
+  const azi = new Date().toISOString().split('T')[0];
+  document.getElementById('total-publicate').textContent = stiriDate.filter(s => s.data === azi).length;
+
+  const tbody = document.getElementById('tabel-dashboard');
+  tbody.innerHTML = stiriDate.slice(0,5).map(s => `
+    <tr>
+      <td>${s.emoji} <strong>${s.titlu}</strong>${s.principal ? '<span class="badge-principal">★ Principal</span>' : ''}</td>
+      <td><span class="badge-cat ${s.categorie}">${numeCategorie(s.categorie)}</span></td>
+      <td>${formateazaData(s.data)}</td>
+      <td>
+        <button class="btn-actiune btn-editeaza" onclick="editeazaStire(${s.id})">✏️ Editează</button>
+        <button class="btn-actiune btn-sterge" onclick="stergeStire(${s.id})">🗑️ Șterge</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function actualizeazaTabelStiri() {
+  const tbody = document.getElementById('tabel-stiri');
+  if (!stiriDate.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#aaa;padding:30px;">Nu există știri. Adaugă prima știre!</td></tr>';
+    return;
+  }
+  tbody.innerHTML = stiriDate.map(s => `
+    <tr>
+      <td style="font-size:22px;">${s.emoji}</td>
+      <td><strong>${s.titlu}</strong></td>
+      <td><span class="badge-cat ${s.categorie}">${numeCategorie(s.categorie)}</span></td>
+      <td>${formateazaData(s.data)}</td>
+      <td>${s.principal ? '⭐ Da' : '—'}</td>
+      <td>
+        <button class="btn-actiune btn-editeaza" onclick="editeazaStire(${s.id})">✏️ Editează</button>
+        <button class="btn-actiune btn-sterge" onclick="stergeStire(${s.id})">🗑️ Șterge</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ===== FOTO =====
+function previzualizeazaFoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    aratNotificare('Fotografia e prea mare! Max 5MB.', 'eroare');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('img-preview').src = e.target.result;
+    document.getElementById('preview-foto').style.display = 'block';
+    document.getElementById('zona-upload').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function stergePoза() {
+  document.getElementById('inp-foto').value = '';
+  document.getElementById('img-preview').src = '';
+  document.getElementById('preview-foto').style.display = 'none';
+  document.getElementById('zona-upload').style.display = 'block';
+  document.getElementById('stire-foto-url').value = '';
+}
+
+async function incarcaFotoGitHub(file) {
+  const token = localStorage.getItem('gh_token');
+  const user  = localStorage.getItem('gh_user') || 'vitalievevdev-coder';
+  const repo  = localStorage.getItem('gh_repo') || 'afa-website';
+  if (!token || !file) return null;
+
+  const prog = document.getElementById('progress-upload');
+  const bar  = document.getElementById('progress-bar');
+  prog.style.display = 'block';
+  bar.style.width = '30%';
+
+  const numeFile = `stire_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g,'_')}`;
+  const reader = new FileReader();
+
+  return new Promise(resolve => {
+    reader.onload = async e => {
+      bar.style.width = '60%';
+      const base64 = e.target.result.split(',')[1];
+      try {
+        const r = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/images/stiri/${numeFile}`, {
+          method: 'PUT',
+          headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: `Foto stire: ${numeFile}`, content: base64 })
+        });
+        bar.style.width = '100%';
+        setTimeout(() => { prog.style.display = 'none'; bar.style.width = '0'; }, 800);
+        if (r.ok) {
+          const d = await r.json();
+          resolve(d.content.download_url);
+        } else { resolve(null); }
+      } catch(e) { resolve(null); }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// ===== VIDEO =====
+function previzualizeazaVideo(url, tip) {
+  const prev  = document.getElementById('video-preview');
+  const iframe = document.getElementById('video-iframe');
+  const embedUrl = getEmbedUrl(url, tip);
+  if (embedUrl) {
+    iframe.src = embedUrl;
+    prev.style.display = 'block';
+  } else {
+    if (!document.getElementById('stire-youtube').value && !document.getElementById('stire-facebook').value) {
+      prev.style.display = 'none';
+      iframe.src = '';
+    }
+  }
+}
+
+function getEmbedUrl(url, tip) {
+  if (!url) return null;
+  if (tip === 'youtube') {
+    // suporta: watch?v=ID, youtu.be/ID, shorts/ID
+    const m = url.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/);
+    return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+  }
+  if (tip === 'facebook') {
+    return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&width=500&show_text=false`;
+  }
+  return null;
+}
+
+// ===== EDITARE =====
+function editeazaStire(id) {
+  const s = stiriDate.find(x => x.id === id);
+  if (!s) return;
+  document.getElementById('titlu-formular').textContent = 'Editează Știrea';
+  document.getElementById('stire-id').value        = s.id;
+  document.getElementById('stire-titlu').value     = s.titlu;
+  document.getElementById('stire-continut').value  = s.continut;
+  document.getElementById('stire-categorie').value = s.categorie;
+  document.getElementById('stire-emoji').value     = s.emoji;
+  document.getElementById('stire-data').value      = s.data;
+  document.getElementById('stire-autor').value     = s.autor || 'Echipa AFA';
+  document.getElementById('stire-principal').checked = s.principal;
+  document.getElementById('stire-youtube').value   = s.youtube || '';
+  document.getElementById('stire-facebook').value  = s.facebook || '';
+  document.getElementById('stire-foto-url').value  = s.foto || '';
+
+  // preview foto existenta
+  if (s.foto) {
+    document.getElementById('img-preview').src = s.foto;
+    document.getElementById('preview-foto').style.display = 'block';
+    document.getElementById('zona-upload').style.display = 'none';
+  } else {
+    stergePoза();
+  }
+  // preview video existent
+  const ytUrl = s.youtube ? getEmbedUrl(s.youtube, 'youtube') : null;
+  const fbUrl = s.facebook ? getEmbedUrl(s.facebook, 'facebook') : null;
+  if (ytUrl || fbUrl) {
+    document.getElementById('video-iframe').src = ytUrl || fbUrl;
+    document.getElementById('video-preview').style.display = 'block';
+  }
+
+  aratEcran('stire-noua', document.querySelector('.sidebar-menu li:nth-child(3) a'));
+}
+
+// ===== STERGE =====
+function stergeStire(id) {
+  if (!confirm('Sigur vrei să ștergi această știre?')) return;
+  stiriDate = stiriDate.filter(s => s.id !== id);
+  salveazaLocal();
+  actualizeazaTabele();
+  publicaPeGitHub();
+  aratNotificare('Știrea a fost ștearsă!', 'succes');
+}
+
+// ===== SALVEAZA SI PUBLICA =====
+async function salveazaSiPublica() {
+  const titlu      = document.getElementById('stire-titlu').value.trim();
+  const continut   = document.getElementById('stire-continut').value.trim();
+  const categorie  = document.getElementById('stire-categorie').value;
+  const emoji      = document.getElementById('stire-emoji').value.trim() || '📰';
+  const data       = document.getElementById('stire-data').value;
+  const autor      = document.getElementById('stire-autor').value.trim() || 'Echipa AFA';
+  const principal  = document.getElementById('stire-principal').checked;
+  const youtube    = document.getElementById('stire-youtube').value.trim();
+  const facebook   = document.getElementById('stire-facebook').value.trim();
+  const idExistent = document.getElementById('stire-id').value;
+
+  if (!titlu || !continut || !data) {
+    aratNotificare('Completează titlul, conținutul și data!', 'eroare');
+    return;
+  }
+
+  const status = document.getElementById('status-publicare');
+  status.textContent = '⏳ Se încarcă...';
+  status.style.color = '#888';
+
+  // upload foto daca exista fisier nou selectat
+  let fotoUrl = document.getElementById('stire-foto-url').value;
+  const fisierFoto = document.getElementById('inp-foto').files[0];
+  if (fisierFoto) {
+    status.textContent = '📤 Se încarcă fotografia...';
+    const uploadedUrl = await incarcaFotoGitHub(fisierFoto);
+    if (uploadedUrl) {
+      fotoUrl = uploadedUrl;
+    } else {
+      // nu salva base64 in JSON — pastreaza URL-ul vechi daca exista
+      fotoUrl = document.getElementById('stire-foto-url').value || null;
+      aratNotificare('Foto nesalvată — verifică conexiunea GitHub!', 'eroare');
+    }
+  }
+
+  // daca e setata ca principala, elimina principal de la altele
+  if (principal) stiriDate.forEach(s => s.principal = false);
+
+  const obiectStire = {
+    titlu, continut, categorie, emoji, data, autor, principal,
+    foto: fotoUrl || null,
+    youtube: youtube || null,
+    facebook: facebook || null
+  };
+
+  if (idExistent) {
+    const idx = stiriDate.findIndex(s => s.id == idExistent);
+    if (idx > -1) stiriDate[idx] = { id:parseInt(idExistent), ...obiectStire };
+  } else {
+    const idNou = stiriDate.length ? Math.max(...stiriDate.map(s=>s.id)) + 1 : 1;
+    stiriDate.unshift({ id:idNou, ...obiectStire });
+  }
+
+  salveazaLocal();
+  actualizeazaTabele();
+
+  status.textContent = '⏳ Se publică pe site...';
+  const ok = await publicaPeGitHub();
+  if (ok) {
+    status.textContent = '✅ Publicat cu succes pe site!';
+    status.style.color = 'var(--verde)';
+    aratNotificare('🚀 Știrea a fost publicată pe site!', 'succes');
+    setTimeout(() => {
+      aratEcran('stiri', document.querySelector('.sidebar-menu li:nth-child(2) a'));
+    }, 1500);
+  } else {
+    status.textContent = '⚠️ Salvat local (configurează GitHub în Setări)';
+    status.style.color = '#e65100';
+    aratNotificare('Salvat local. Adaugă token GitHub în Setări!', 'info');
+  }
+}
+
+// ===== PUBLICA PE GITHUB =====
+async function publicaPeGitHub() {
+  const token = localStorage.getItem('gh_token');
+  const user  = localStorage.getItem('gh_user')  || 'vitalievevdev-coder';
+  const repo  = localStorage.getItem('gh_repo')  || 'afa-website';
+  if (!token) return false;
+
+  try {
+    // obtine SHA-ul fisierului curent
+    const r1 = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/data/stiri.json`, {
+      headers: { 'Authorization': `token ${token}` }
+    });
+    let sha = '';
+    if (r1.ok) { const d = await r1.json(); sha = d.sha; }
+
+    // publica
+    const continutB64 = btoa(unescape(encodeURIComponent(JSON.stringify(stiriDate, null, 2))));
+    const r2 = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/data/stiri.json`, {
+      method: 'PUT',
+      headers: { 'Authorization': `token ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: `Actualizare stiri — ${new Date().toLocaleDateString('ro-RO')}`,
+        content: continutB64,
+        sha: sha || undefined
+      })
+    });
+    return r2.ok;
+  } catch(e) { return false; }
+}
+
+// ===== LOCAL STORAGE =====
+function salveazaLocal() {
+  localStorage.setItem('afa_stiri', JSON.stringify(stiriDate));
+}
+
+// ===== SETARI =====
+function salveazaSetariGH() {
+  const token = document.getElementById('set-gh-token').value.trim();
+  const user  = document.getElementById('set-gh-user').value.trim();
+  const repo  = document.getElementById('set-gh-repo').value.trim();
+  if (token) localStorage.setItem('gh_token', token);
+  if (user)  localStorage.setItem('gh_user', user);
+  if (repo)  localStorage.setItem('gh_repo', repo);
+  actualizeazaStatusGH(!!token);
+  aratNotificare('Setările GitHub au fost salvate!', 'succes');
+  incarcaStiri();
+}
+
+function actualizeazaStatusGH(conectat) {
+  const el = document.getElementById('status-gh');
+  if (conectat) {
+    el.className = 'github-status conectat';
+    el.textContent = '🟢 GitHub conectat';
+  } else {
+    el.className = 'github-status deconectat';
+    el.textContent = '⚪ GitHub neconectat';
+  }
+}
+
+function schimbaParola() {
+  const veche = document.getElementById('set-parola-veche').value;
+  const noua  = document.getElementById('set-parola-noua').value;
+  const conf  = document.getElementById('set-parola-conf').value;
+  const cred  = JSON.parse(localStorage.getItem('afa_credentiale') || JSON.stringify(CREDENTIALE_DEFAULT));
+  if (veche !== cred.parola) { aratNotificare('Parola curentă este greșită!', 'eroare'); return; }
+  if (noua !== conf)          { aratNotificare('Parolele noi nu coincid!', 'eroare'); return; }
+  if (noua.length < 6)        { aratNotificare('Parola trebuie să aibă minim 6 caractere!', 'eroare'); return; }
+  localStorage.setItem('afa_credentiale', JSON.stringify({ user: cred.user, parola: noua }));
+  document.getElementById('set-parola-veche').value = '';
+  document.getElementById('set-parola-noua').value  = '';
+  document.getElementById('set-parola-conf').value  = '';
+  aratNotificare('Parola a fost schimbată cu succes!', 'succes');
+}
+
+// ===== HELPERS =====
+function numeCategorie(cat) {
+  const map = { alerta:'🚨 Alertă', eveniment:'📅 Eveniment', raport:'📋 Raport', stire:'📰 Știre AFA', international:'🌍 Internațional' };
+  return map[cat] || cat;
+}
+
+function formateazaData(str) {
+  if (!str) return '—';
+  const [y,m,z] = str.split('-');
+  const luni = ['ian','feb','mar','apr','mai','iun','iul','aug','sep','oct','nov','dec'];
+  return `${parseInt(z)} ${luni[parseInt(m)-1]} ${y}`;
+}
+
+function aratNotificare(mesaj, tip) {
+  const el = document.getElementById('notificare');
+  el.textContent = mesaj;
+  el.className = `notificare ${tip} arata`;
+  setTimeout(() => el.classList.remove('arata'), 3500);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Știri — Anti-Fraud Alliance</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ===== FILTRU CATEGORII ===== */
+    .filtru-bar {
+      background: #fff;
+      border-bottom: 1px solid #eee;
+      padding: 18px 0;
+      position: sticky;
+      top: 95px;
+      z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .filtru-bar .container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filtru-bar span {
+      font-size: 13px;
+      font-weight: 700;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-right: 5px;
+    }
+
+    .btn-filtru {
+      padding: 7px 18px;
+      border-radius: 20px;
+      border: 2px solid #e0e0e0;
+      background: #fff;
+      color: #555;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s;
+      font-family: inherit;
+    }
+
+    .btn-filtru:hover,
+    .btn-filtru.activ {
+      background: var(--albastru-inchis);
+      border-color: var(--albastru-inchis);
+      color: #fff;
+    }
+
+    .btn-filtru.activ-alerta {
+      background: #d32f2f;
+      border-color: #d32f2f;
+      color: #fff;
+    }
+
+    /* ===== STIRE PRINCIPALA (hero) ===== */
+    .stire-hero {
+      background: linear-gradient(135deg, var(--albastru-inchis), var(--albastru-mediu));
+      border-radius: 16px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      min-height: 320px;
+      margin-bottom: 40px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.12);
+    }
+
+    .stire-hero-img {
+      background: linear-gradient(135deg, #0d3060, #1a5fa8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 90px;
+    }
+
+    .stire-hero-body {
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .stire-hero-body .badge {
+      display: inline-block;
+      background: #d32f2f;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      width: fit-content;
+    }
+
+    .stire-hero-body h2 {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 14px;
+    }
+
+    .stire-hero-body p {
+      font-size: 15px;
+      opacity: 0.85;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .stire-hero-body .meta {
+      font-size: 13px;
+      opacity: 0.65;
+      display: flex;
+      gap: 20px;
+    }
+
+    .btn-citeste {
+      display: inline-block;
+      background: var(--auriu);
+      color: var(--albastru-inchis);
+      padding: 11px 24px;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      transition: all 0.3s;
+      width: fit-content;
+      margin-bottom: 16px;
+    }
+
+    .btn-citeste:hover {
+      background: var(--auriu-deschis);
+      transform: translateY(-2px);
+    }
+
+    /* ===== GRID STIRI ===== */
+    .stiri-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 35px;
+      align-items: start;
+    }
+
+    /* ===== CARD STIRE MARE ===== */
+    .card-stire-mare {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      transition: all 0.3s;
+      margin-bottom: 20px;
+    }
+
+    .card-stire-mare:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    .card-stire-mare .img {
+      background: linear-gradient(135deg, var(--albastru-mediu), #2980b9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 50px;
+    }
+
+    .card-stire-mare .img.alerta {
+      background: linear-gradient(135deg, #b71c1c, #d32f2f);
+    }
+
+    .card-stire-mare .img.verde {
+      background: linear-gradient(135deg, #1b5e20, #2e7d32);
+    }
+
+    .card-stire-mare .img.violet {
+      background: linear-gradient(135deg, #4a148c, #6a1b9a);
+    }
+
+    .card-stire-mare .body {
+      padding: 22px 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-stire-mare .body h3 {
+      color: var(--albastru-inchis);
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .card-stire-mare .body p {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .card-stire-mare .footer-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-stire-mare .footer-card .data {
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    .link-citeste {
+      color: var(--albastru-mediu);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .link-citeste:hover { color: var(--auriu); }
+
+    /* ===== BADGE CATEGORII ===== */
+    .badge-cat {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .badge-cat.alerta    { background: #ffebee; color: #c62828; }
+    .badge-cat.eveniment { background: #e3f2fd; color: #1565c0; }
+    .badge-cat.raport    { background: #f3e5f5; color: #6a1b9a; }
+    .badge-cat.stire     { background: #e8f5e9; color: #2e7d32; }
+    .badge-cat.international { background: #fff8e1; color: #e65100; }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+      margin-bottom: 25px;
+    }
+
+    .sidebar-box h4 {
+      color: var(--albastru-inchis);
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--auriu);
+    }
+
+    .stire-mini {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .stire-mini:last-child { border-bottom: none; }
+
+    .stire-mini .icon-mic {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: var(--gri-deschis);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .stire-mini .text h5 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--albastru-inchis);
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+
+    .stire-mini .text span {
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      background: var(--gri-deschis);
+      color: #555;
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .tag:hover {
+      background: var(--albastru-inchis);
+      color: #fff;
+    }
+
+    /* ===== PAGINARE ===== */
+    .paginare {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 35px;
+    }
+
+    .paginare a {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      border: 2px solid #e0e0e0;
+      color: #555;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .paginare a:hover,
+    .paginare a.activ {
+      background: var(--albastru-inchis);
+      border-color: var(--albastru-inchis);
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .stire-hero { grid-template-columns: 1fr; }
+      .stire-hero-img { height: 160px; }
+      .stiri-layout { grid-template-columns: 1fr; }
+      .card-stire-mare { grid-template-columns: 1fr; }
+      .card-stire-mare .img { height: 130px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <div class="container">
+      <a href="#">🇷🇴 Română</a>
+      <a href="#">🇬🇧 English</a>
+      <a href="#">🇷🇺 Русский</a>
+    </div>
+  </div>
+  <div class="container header-main">
+    <a href="index.html" class="logo">
+      <img src="images/logo-afa-alb.svg" alt="Anti-Fraud Alliance" style="height:60px; width:auto;" />
+    </a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Acasă</a></li>
+        <li><a href="despre-noi.html">Despre Noi</a></li>
+        <li><a href="activitati.html">Activități</a></li>
+        <li><a href="resurse.html">Resurse</a></li>
+        <li><a href="stiri.html" class="activ">Știri</a></li>
+        <li><a href="contact.html" class="btn-contact-nav">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE HEADER -->
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="index.html">Acasă</a> › Știri</div>
+    <h1>Știri și Alerte</h1>
+    <p>Cele mai recente informații despre fraude, escrocherii și activitățile AFA</p>
+  </div>
+</section>
+
+<!-- FILTRU CATEGORII -->
+<div class="filtru-bar">
+  <div class="container">
+    <span>Filtrează:</span>
+    <button class="btn-filtru activ">Toate</button>
+    <button class="btn-filtru">🚨 Alerte Fraudă</button>
+    <button class="btn-filtru">📅 Evenimente</button>
+    <button class="btn-filtru">📋 Rapoarte</button>
+    <button class="btn-filtru">🌍 Internațional</button>
+    <button class="btn-filtru">📰 Știri AFA</button>
+  </div>
+</div>
+
+<!-- CONTINUT PRINCIPAL -->
+<section class="sectiune">
+  <div class="container">
+
+    <!-- STIRI INCARCATE DINAMIC -->
+    <div id="zona-stiri-dinamice">
+      <div style="text-align:center;padding:40px;color:#aaa;">Se încarcă știrile...</div>
+    </div>
+
+      <!-- SIDEBAR -->
+      <div>
+
+        <!-- Cautare -->
+        <div class="sidebar-box">
+          <h4>🔍 Caută știri</h4>
+          <div style="display:flex; gap:8px;">
+            <input type="text" placeholder="Cuvânt cheie..."
+              style="flex:1; padding:10px 14px; border:2px solid #e0e0e0; border-radius:8px; font-size:14px; outline:none; font-family:inherit;" />
+            <button style="background:var(--albastru-inchis); color:#fff; border:none; border-radius:8px; padding:10px 16px; cursor:pointer; font-size:16px;">→</button>
+          </div>
+        </div>
+
+        <!-- Stiri recente -->
+        <div class="sidebar-box">
+          <h4>🕐 Cele mai recente</h4>
+
+          <div class="stire-mini">
+            <div class="icon-mic">📱</div>
+            <div class="text">
+              <h5>Escrocherii prin WhatsApp — cum funcționează</h5>
+              <span>📅 26 iunie 2026</span>
+            </div>
+          </div>
+
+          <div class="stire-mini">
+            <div class="icon-mic">🏦</div>
+            <div class="text">
+              <h5>Banca Națională avertizează asupra creditelor false</h5>
+              <span>📅 24 iunie 2026</span>
+            </div>
+          </div>
+
+          <div class="stire-mini">
+            <div class="icon-mic">🛒</div>
+            <div class="text">
+              <h5>Magazine online false — lista neagră actualizată</h5>
+              <span>📅 22 iunie 2026</span>
+            </div>
+          </div>
+
+          <div class="stire-mini">
+            <div class="icon-mic">📧</div>
+            <div class="text">
+              <h5>Email-uri false în numele Poliției — alertă națională</h5>
+              <span>📅 19 iunie 2026</span>
+            </div>
+          </div>
+
+          <div class="stire-mini">
+            <div class="icon-mic">💻</div>
+            <div class="text">
+              <h5>Crypto-fraude: cum recunoști o platformă falsă</h5>
+              <span>📅 16 iunie 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categorii -->
+        <div class="sidebar-box">
+          <h4>📂 Categorii</h4>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f0f0f0;">
+              <a href="#" style="color:#555; text-decoration:none; font-size:14px;">🚨 Alerte Fraudă</a>
+              <span style="background:#ffebee; color:#c62828; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px;">24</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f0f0f0;">
+              <a href="#" style="color:#555; text-decoration:none; font-size:14px;">📅 Evenimente</a>
+              <span style="background:#e3f2fd; color:#1565c0; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px;">12</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f0f0f0;">
+              <a href="#" style="color:#555; text-decoration:none; font-size:14px;">📋 Rapoarte</a>
+              <span style="background:#f3e5f5; color:#6a1b9a; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px;">8</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #f0f0f0;">
+              <a href="#" style="color:#555; text-decoration:none; font-size:14px;">🌍 Internațional</a>
+              <span style="background:#fff8e1; color:#e65100; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px;">15</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0;">
+              <a href="#" style="color:#555; text-decoration:none; font-size:14px;">📰 Știri AFA</a>
+              <span style="background:#e8f5e9; color:#2e7d32; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px;">19</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tag cloud -->
+        <div class="sidebar-box">
+          <h4>🏷️ Etichete populare</h4>
+          <div class="tag-cloud">
+            <a href="#" class="tag">phishing</a>
+            <a href="#" class="tag">SMS fraudă</a>
+            <a href="#" class="tag">crypto</a>
+            <a href="#" class="tag">scheme piramidale</a>
+            <a href="#" class="tag">carduri bancare</a>
+            <a href="#" class="tag">ANAF fals</a>
+            <a href="#" class="tag">investiții false</a>
+            <a href="#" class="tag">WhatsApp</a>
+            <a href="#" class="tag">magazine online</a>
+            <a href="#" class="tag">INTERPOL</a>
+          </div>
+        </div>
+
+        <!-- Box abonare -->
+        <div style="background:linear-gradient(135deg, var(--albastru-inchis), var(--albastru-mediu)); border-radius:12px; padding:25px; color:#fff; text-align:center;">
+          <div style="font-size:32px; margin-bottom:10px;">🔔</div>
+          <h4 style="color:#c8a84b; margin-bottom:10px; font-size:16px;">Primești alertele gratuit</h4>
+          <p style="font-size:13px; opacity:0.85; margin-bottom:15px;">Abonează-te și fii primul care află despre noile fraude</p>
+          <input type="email" placeholder="email@tău.com"
+            style="width:100%; padding:10px 14px; border:none; border-radius:8px; font-size:14px; margin-bottom:10px; font-family:inherit; outline:none;" />
+          <button style="width:100%; background:var(--auriu); color:var(--albastru-inchis); border:none; border-radius:8px; padding:11px; font-weight:700; font-size:14px; cursor:pointer; font-family:inherit;">
+            Abonează-mă gratuit
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div style="margin-bottom:20px;">
+          <img src="images/logo-afa-alb.svg" alt="AFA" style="height:50px; width:auto;" />
+        </div>
+        <p>Organizație non-profit dedicată combaterii fraudelor financiare și protecției cetățenilor.</p>
+        <div class="social-links">
+          <a href="#" class="social-link">f</a>
+          <a href="#" class="social-link">in</a>
+          <a href="#" class="social-link">t</a>
+          <a href="#" class="social-link">yt</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigare</h4>
+        <ul>
+          <li><a href="index.html">Acasă</a></li>
+          <li><a href="despre-noi.html">Despre Noi</a></li>
+          <li><a href="activitati.html">Activități</a></li>
+          <li><a href="resurse.html">Resurse</a></li>
+          <li><a href="stiri.html">Știri</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Informații</h4>
+        <ul>
+          <li><a href="#">Politica de confidențialitate</a></li>
+          <li><a href="#">Termeni și condiții</a></li>
+          <li><a href="#">GDPR</a></li>
+          <li><a href="#">Rapoarte anuale</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#">📍 Chișinău, Moldova</a></li>
+          <li><a href="#">📞 +373 XX XXX XXX</a></li>
+          <li><a href="#">✉️ contact@afa.md</a></li>
+        </ul>
+        <div style="margin-top:15px; padding:12px; background:rgba(200,168,75,0.15); border-radius:8px; border-left:3px solid #c8a84b;">
+          <div style="color:#c8a84b; font-size:12px; font-weight:700; margin-bottom:5px;">LINIE ANTIFRAUDĂ</div>
+          <div style="color:#fff; font-size:18px; font-weight:800;">0800 XXX XXX</div>
+          <div style="color:rgba(255,255,255,0.6); font-size:11px;">Gratuit · 24/7</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container" style="display:flex; justify-content:space-between; width:100%;">
+      <span>© 2026 Anti-Fraud Alliance. Toate drepturile rezervate.</span>
+      <span><a href="#">Politica de confidențialitate</a> · <a href="#">Termeni</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const LUNI = ['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+
+function formateazaData(str) {
+  if (!str) return '';
+  const [y,m,z] = str.split('-');
+  return `${parseInt(z)} ${LUNI[parseInt(m)-1]} ${y}`;
+}
+
+function numeCategorie(cat) {
+  const map = { alerta:'🚨 Alertă Fraudă', eveniment:'📅 Eveniment', raport:'📋 Raport', stire:'📰 Știre AFA', international:'🌍 Internațional' };
+  return map[cat] || cat;
+}
+
+function culoareImg(cat) {
+  const map = { alerta:'background:linear-gradient(135deg,#b71c1c,#d32f2f)', eveniment:'background:linear-gradient(135deg,#1b5e20,#2e7d32)', raport:'background:linear-gradient(135deg,#4a148c,#6a1b9a)', stire:'background:linear-gradient(135deg,#1a4a8a,#1565c0)', international:'background:linear-gradient(135deg,#e65100,#f57c00)' };
+  return map[cat] || 'background:linear-gradient(135deg,#1a4a8a,#2980b9)';
+}
+
+function getEmbedYT(url) {
+  if (!url) return null;
+  const m = url.match(/(?:v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/);
+  return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+}
+
+function getEmbedFB(url) {
+  if (!url) return null;
+  return `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&width=500&show_text=false`;
+}
+
+function randeazaImgSau(s) {
+  if (s.foto) return `<div class="img" style="background:#000;"><img src="${s.foto}" style="width:100%;height:100%;object-fit:cover;" alt="${s.titlu}"/></div>`;
+  return `<div class="img" style="${culoareImg(s.categorie)}">${s.emoji}</div>`;
+}
+
+function randeazaVideo(s) {
+  const ytEmbed = getEmbedYT(s.youtube);
+  const fbEmbed = getEmbedFB(s.facebook);
+  if (!ytEmbed && !fbEmbed) return '';
+  const src = ytEmbed || fbEmbed;
+  return `<div style="margin:10px 0 0;border-radius:8px;overflow:hidden;"><iframe src="${src}" width="100%" height="180" frameborder="0" allowfullscreen style="display:block;"></iframe></div>`;
+}
+
+async function incarcaStiri() {
+  let stiri = [];
+  try {
+    const r = await fetch('data/stiri.json?t=' + Date.now());
+    if (r.ok) stiri = await r.json();
+  } catch(e) {}
+
+  if (!stiri.length) {
+    document.getElementById('zona-stiri-dinamice').innerHTML = '<p style="text-align:center;color:#aaa;padding:40px;">Nu există știri momentan.</p>';
+    return;
+  }
+
+  const principal = stiri.find(s => s.principal);
+  const restul    = stiri.filter(s => !s.principal);
+
+  let html = '';
+
+  // STIRE PRINCIPALA
+  if (principal) {
+    const ytEmbed = getEmbedYT(principal.youtube);
+    const fbEmbed = getEmbedFB(principal.facebook);
+    const embedSrc = ytEmbed || fbEmbed;
+    html += `
+    <div class="stire-hero">
+      <div class="stire-hero-img" style="${principal.foto ? 'background:#000;padding:0;' : culoareImg(principal.categorie)}">
+        ${principal.foto
+          ? `<img src="${principal.foto}" style="width:100%;height:100%;object-fit:cover;" alt="${principal.titlu}"/>`
+          : principal.emoji}
+      </div>
+      <div class="stire-hero-body">
+        <div class="badge">${numeCategorie(principal.categorie)}</div>
+        <h2>${principal.titlu}</h2>
+        <p>${principal.continut}</p>
+        ${embedSrc ? `<div style="margin-bottom:14px;border-radius:8px;overflow:hidden;"><iframe src="${embedSrc}" width="100%" height="160" frameborder="0" allowfullscreen style="display:block;"></iframe></div>` : ''}
+        <div class="meta">
+          <span>📅 ${formateazaData(principal.data)}</span>
+          <span>✍️ ${principal.autor || 'Echipa AFA'}</span>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // LAYOUT 2 COLOANE
+  html += `<div class="stiri-layout"><div>`;
+
+  restul.forEach(s => {
+    html += `
+    <div class="card-stire-mare">
+      ${randeazaImgSau(s)}
+      <div class="body">
+        <div>
+          <span class="badge-cat ${s.categorie}">${numeCategorie(s.categorie)}</span>
+          <h3>${s.titlu}</h3>
+          <p>${s.continut}</p>
+          ${randeazaVideo(s)}
+        </div>
+        <div class="footer-card">
+          <span class="data">📅 ${formateazaData(s.data)}</span>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  html += `</div>`;
+
+  // SIDEBAR
+  html += `
+      <div>
+        <div class="sidebar-box">
+          <h4>🔍 Caută știri</h4>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="inp-cautare" placeholder="Cuvânt cheie..."
+              style="flex:1;padding:10px 14px;border:2px solid #e0e0e0;border-radius:8px;font-size:14px;outline:none;font-family:inherit;"
+              oninput="filtreazaStiri(this.value)"/>
+            <button style="background:var(--albastru-inchis);color:#fff;border:none;border-radius:8px;padding:10px 16px;cursor:pointer;font-size:16px;">→</button>
+          </div>
+        </div>
+        <div class="sidebar-box">
+          <h4>🕐 Cele mai recente</h4>
+          ${stiri.slice(0,5).map(s=>`
+          <div class="stire-mini">
+            <div class="icon-mic" style="${culoareImg(s.categorie)};color:#fff;">
+              ${s.foto ? `<img src="${s.foto}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" alt=""/>` : s.emoji}
+            </div>
+            <div class="text">
+              <h5>${s.titlu}</h5>
+              <span>📅 ${formateazaData(s.data)}</span>
+            </div>
+          </div>`).join('')}
+        </div>
+        <div class="sidebar-box">
+          <h4>📂 Categorii</h4>
+          ${['alerta','eveniment','raport','international','stire'].map(cat => {
+            const nr = stiri.filter(s=>s.categorie===cat).length;
+            return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+              <a href="#" style="color:#555;text-decoration:none;font-size:14px;">${numeCategorie(cat)}</a>
+              <span class="badge-cat ${cat}" style="font-size:11px;">${nr}</span>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('zona-stiri-dinamice').innerHTML = html;
+}
+
+function filtreazaStiri(q) {
+  const cards = document.querySelectorAll('.card-stire-mare');
+  cards.forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.style.display = text.includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+
+incarcaStiri();
+</script>
+</body>
+</html>
