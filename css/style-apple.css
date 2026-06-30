@@ -438,6 +438,31 @@ footer {
   background: #1d1d1f !important;
 }
 
+.hotline-box {
+  background: rgba(0,113,227,0.15) !important;
+  border-left: 3px solid var(--ap-blue) !important;
+  border-radius: 12px !important;
+}
+
+.hotline-box * {
+  color: #fff !important;
+}
+
+.hotline-box > div:first-child {
+  color: var(--ap-blue) !important;
+  font-size: 11px !important;
+  letter-spacing: 0 !important;
+}
+
+.footer-bottom a {
+  color: rgba(255,255,255,0.55) !important;
+  text-decoration: none !important;
+}
+
+.footer-bottom a:hover {
+  color: rgba(255,255,255,0.9) !important;
+}
+
 .footer-col h4 {
   color: rgba(255,255,255,0.9) !important;
   font-size: 13px !important;
