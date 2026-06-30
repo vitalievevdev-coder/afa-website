@@ -213,7 +213,7 @@ test.describe('activitati.html — Continut specific', () => {
     await page.goto('http://localhost:8080/activitati.html');
 
     // Exista cel putin un card sau element de activitate
-    const activitate = page.locator('.card, .activitate, [class*="activit"]');
+    const activitate = page.locator('.card-eveniment, .card, .activitate, [class*="activit"]');
     const count = await activitate.count();
     expect(count).toBeGreaterThanOrEqual(1);
   });

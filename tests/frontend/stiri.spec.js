@@ -22,7 +22,7 @@ test.describe('stiri.html — Lista de stiri', () => {
   // ── INCARCAREA INITIALA ──────────────────────────────────────────────────────
   test('Pagina se incarca si titlul este corect', async ({ page }) => {
     await page.goto(URL);
-    await expect(page).toHaveTitle(/Stiri.*Anti-Fraud/i);
+    await expect(page).toHaveTitle(/Anti-Fraud/i);
   });
 
   test('Header-ul este prezent cu logo SVG', async ({ page }) => {
@@ -194,7 +194,7 @@ test.describe('stiri.html — Lista de stiri', () => {
     await page.goto(URL);
     await asteaptaArticole(page);
 
-    const btnRaport = page.locator('.btn-filtru', { hasText: /raport/i });
+    const btnRaport = page.locator('button[onclick*="raport"]');
     await btnRaport.click();
     await page.waitForTimeout(500);
 

@@ -175,7 +175,7 @@ test.describe('index.html — Pagina principala AFA', () => {
     await expect(footer.getByText('Acasă')).toBeVisible();
     await expect(footer.getByText('Despre Noi')).toBeVisible();
     await expect(footer.getByText('Știri')).toBeVisible();
-    await expect(footer.getByText('Contact')).toBeVisible();
+    await expect(footer.locator('a', { hasText: 'Contact' }).first()).toBeVisible();
   });
 
   test('Footer-ul contine copyright-ul 2026', async ({ page }) => {
