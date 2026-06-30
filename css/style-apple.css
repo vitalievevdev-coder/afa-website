@@ -869,19 +869,20 @@ footer {
 ══════════════════════════════════════════ */
 
 .contact-info-card {
-  background: #1d1d1f !important;
+  background: #fff !important;
   border-radius: 20px !important;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.08) !important;
 }
 
 .contact-info-card h3 {
-  color: #f5f5f7 !important;
+  color: #1d1d1f !important;
   font-weight: 700 !important;
   font-size: 18px !important;
   letter-spacing: -0.3px !important;
 }
 
 .contact-item .icon {
-  background: rgba(255,255,255,0.08) !important;
+  background: #f5f5f7 !important;
   border-radius: 12px !important;
 }
 
@@ -893,7 +894,7 @@ footer {
 }
 
 .contact-item .text span {
-  color: rgba(245,245,247,0.8) !important;
+  color: #1d1d1f !important;
 }
 
 .hotline-box {
