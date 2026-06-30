@@ -69,9 +69,9 @@ test.describe('admin.html — Ecran de login', () => {
   test('Logo-ul AFA din ecranul de login este afisat', async ({ page }) => {
     await page.goto(URL);
 
-    const loginLogo = page.locator('.login-logo');
+    const loginLogo = page.locator('.login-logo img');
     await expect(loginLogo).toBeVisible();
-    await expect(loginLogo).toHaveText('AFA');
+    await expect(loginLogo).toHaveAttribute('src', /logo-afa/);
   });
 
   test('Mesajul de eroare este ascuns initial', async ({ page }) => {
@@ -144,7 +144,7 @@ test.describe('admin.html — Panoul de administrare (dupa login)', () => {
 
     const adminHeader = page.locator('.admin-header');
     await expect(adminHeader).toBeVisible();
-    await expect(adminHeader).toContainText('AFA');
+    await expect(adminHeader.locator('img[src*="logo-afa"]')).toBeVisible();
   });
 
   test('Header-ul admin are butonul "Delogheaza-te"', async ({ page }) => {
@@ -323,10 +323,10 @@ test.describe('admin.html — Panoul de administrare (dupa login)', () => {
     await page.evaluate(() => {
       if (typeof schimbaEcran === 'function') schimbaEcran('stiri');
     });
-    await page.waitForTimeout(500);
+    await page.waitForSelector('.btn-edit', { timeout: 10000 });
 
     await page.locator('.btn-edit').first().click();
-    await page.waitForTimeout(500);
+    await page.waitForSelector('#ecran-form.activ', { timeout: 5000 });
 
     const titlu = await page.locator('#s-titlu').inputValue();
     expect(titlu.trim().length).toBeGreaterThan(0);
