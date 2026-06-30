@@ -164,38 +164,33 @@
       <h2>Ultimele Știri</h2>
       <p>Fii informat despre cele mai recente scheme de fraudă și activitățile noastre</p>
     </div>
-    <div class="grid-3">
-      <div class="card-stire">
-        <div class="card-stire-img">📱</div>
-        <div class="card-stire-body">
-          <span class="card-stire-categorie">Alertă Fraudă</span>
-          <h3>Nouă schemă de phishing vizează clienții băncilor din R. Moldova</h3>
-          <p>Infractorii folosesc mesaje SMS false care imită băncile naționale
-             pentru a fura datele cardurilor bancare...</p>
-          <div class="card-stire-data">📅 25 iunie 2026</div>
-        </div>
-      </div>
-      <div class="card-stire">
-        <div class="card-stire-img">🎓</div>
-        <div class="card-stire-body">
-          <span class="card-stire-categorie">Eveniment</span>
-          <h3>Seminar gratuit: Cum să recunoști o fraudă online în 2026</h3>
-          <p>AFA organizează un seminar deschis publicului larg pe data de
-             15 iulie 2026 la Chișinău. Participarea este gratuită...</p>
-          <div class="card-stire-data">📅 20 iunie 2026</div>
-        </div>
-      </div>
-      <div class="card-stire">
-        <div class="card-stire-img">📋</div>
-        <div class="card-stire-body">
-          <span class="card-stire-categorie">Raport</span>
-          <h3>Raport anual 2025: Creștere cu 40% a fraudelor financiare</h3>
-          <p>Raportul AFA pentru 2025 arată o creștere îngrijorătoare a
-             fraudelor online și a escrocheriilor telefonice...</p>
-          <div class="card-stire-data">📅 10 iunie 2026</div>
-        </div>
-      </div>
-    </div>
+    <div class="grid-3" id="grid-stiri-home"></div>
+    <script>
+    fetch('data/stiri.json')
+      .then(r => r.json())
+      .then(data => {
+        const publicate = data.filter(s => s.status === 'publicat');
+        const ultimele = publicate.slice(0, 3);
+        const catIco = { alerta:'🚨', eveniment:'📅', raport:'📋', stire:'📰', international:'🌍' };
+        const catNume = { alerta:'Alertă', eveniment:'Eveniment', raport:'Raport', stire:'Știre', international:'Internațional' };
+        const grid = document.getElementById('grid-stiri-home');
+        grid.innerHTML = ultimele.map(s => {
+          const img = s.foto ? `<img src="${s.foto}" alt="${s.titlu}" style="width:100%;height:160px;object-fit:cover;border-radius:10px 10px 0 0;display:block;">` : `<div class="card-stire-img">${catIco[s.categorie]||'📰'}</div>`;
+          const data2 = s.data ? s.data.split('T')[0].split('-').reverse().join('.') : '';
+          const rezumat = s.continut ? s.continut.replace(/<[^>]+>/g,'').substring(0,120) + '...' : '';
+          return `<div class="card-stire" onclick="location.href='stire.html?id=${s.id}'" style="cursor:pointer;">
+            ${img}
+            <div class="card-stire-body">
+              <span class="card-stire-categorie">${catNume[s.categorie]||s.categorie}</span>
+              <h3>${s.titlu}</h3>
+              <p>${rezumat}</p>
+              <div class="card-stire-data">📅 ${data2}</div>
+            </div>
+          </div>`;
+        }).join('');
+      })
+      .catch(() => {});
+    </script>
     <div style="text-align:center; margin-top:35px;">
       <a href="stiri.html" class="btn-primar">Vezi toate știrile</a>
     </div>
