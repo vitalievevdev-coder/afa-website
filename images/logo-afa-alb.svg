@@ -9,11 +9,11 @@
   <g transform="translate(19, 0)">
 
     <!-- SCUT alb pentru header inchis -->
-    <path d="M24 10 L84 10 L84 75 Q84 110 54 125 Q24 110 24 75 Z"
+    <path d="M13 10 L95 10 L95 75 Q95 110 54 125 Q13 110 13 75 Z"
           fill="rgba(255,255,255,0.08)" />
-    <path d="M24 10 L84 10 L84 75 Q84 110 54 125 Q24 110 24 75 Z"
+    <path d="M13 10 L95 10 L95 75 Q95 110 54 125 Q13 110 13 75 Z"
           fill="none" stroke="url(#aurGrad2)" stroke-width="2.5" />
-    <path d="M31 17 L77 17 L77 74 Q77 103 54 116 Q31 103 31 74 Z"
+    <path d="M20 17 L88 17 L88 74 Q88 103 54 116 Q20 103 20 74 Z"
           fill="none" stroke="rgba(200,168,75,0.3)" stroke-width="1.5" />
 
     <!-- AFA în scut -->
@@ -24,9 +24,9 @@
           fill="url(#aurGrad2)"
           text-anchor="middle"
           letter-spacing="-1">AFA</text>
-    <line x1="37" y1="90" x2="71" y2="90" stroke="#c8a84b" stroke-width="1.2" opacity="0.6"/>
-    <circle cx="39" cy="26" r="2" fill="#c8a84b" opacity="0.7"/>
-    <circle cx="69" cy="26" r="2" fill="#c8a84b" opacity="0.7"/>
+    <line x1="30" y1="90" x2="78" y2="90" stroke="#c8a84b" stroke-width="1.2" opacity="0.6"/>
+    <circle cx="32" cy="26" r="2" fill="#c8a84b" opacity="0.7"/>
+    <circle cx="76" cy="26" r="2" fill="#c8a84b" opacity="0.7"/>
 
 
     <!-- TEXT alb -->
