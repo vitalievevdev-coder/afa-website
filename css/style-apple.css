@@ -11,6 +11,31 @@
   --ap-border:      rgba(0,0,0,0.08);
 }
 
+/* ── ICONIȚE SVG INLINE ── */
+.ico-txt {
+  width: 16px !important;
+  height: 16px !important;
+  vertical-align: -3px !important;
+  display: inline-block !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+  flex-shrink: 0 !important;
+}
+.ico { display: inline-flex !important; align-items: center !important; }
+.ico .ico-txt { width: 18px !important; height: 18px !important; vertical-align: -4px !important; }
+.stat-icon .ico-txt { width: 28px !important; height: 28px !important; }
+.placeholder-img .ico-txt { width: 80px !important; height: 80px !important; opacity: 0.4 !important; }
+.badge-flotant .ico-txt { width: 22px !important; height: 22px !important; }
+.icon .ico-txt { width: 24px !important; height: 24px !important; }
+.icon-mare .ico-txt { width: 48px !important; height: 48px !important; }
+.proiect-icon .ico-txt { width: 36px !important; height: 36px !important; }
+.search-icon .ico-txt { width: 18px !important; height: 18px !important; }
+.doc-icon .ico-txt { width: 32px !important; height: 32px !important; }
+h2 .ico-txt, h3 .ico-txt, h4 .ico-txt { width: 20px !important; height: 20px !important; vertical-align: -4px !important; }
+
 /* ── RESET GLOBAL PE ACEASTA PAGINA ── */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif !important;
@@ -277,10 +302,23 @@ nav ul li a.activ {
 .card-icon {
   width: 56px !important;
   height: 56px !important;
-  background: var(--ap-light) !important;
+  background: rgba(0,113,227,0.08) !important;
   border-radius: 14px !important;
   font-size: 24px !important;
   margin-bottom: 22px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--ap-blue) !important;
+}
+.card-icon svg {
+  width: 26px !important;
+  height: 26px !important;
+  stroke: var(--ap-blue) !important;
+  fill: none !important;
+  stroke-width: 1.8 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
 }
 
 .card h3 {

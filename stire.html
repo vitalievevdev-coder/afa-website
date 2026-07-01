@@ -401,11 +401,11 @@
   <!-- SIDEBAR -->
   <aside class="articol-sidebar">
     <div class="sidebar-box">
-      <div class="sidebar-box-titlu">📰 Articole recente</div>
+      <div class="sidebar-box-titlu"><svg class="ico-txt" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg> Articole recente</div>
       <div id="sidebar-recente"></div>
     </div>
     <div class="sidebar-box">
-      <div class="sidebar-box-titlu">🔥 Populare</div>
+      <div class="sidebar-box-titlu"><svg class="ico-txt" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Populare</div>
       <div id="sidebar-populare"></div>
     </div>
   </aside>
@@ -464,9 +464,9 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <ul>
-          <li><a href="#">📍 Chișinău, Moldova</a></li>
-          <li><a href="#">📞 +373 XX XXX XXX</a></li>
-          <li><a href="#">✉️ contact@afa.md</a></li>
+          <li><a href="#"><svg class="ico-txt" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Chișinău, Moldova</a></li>
+          <li><a href="#"><svg class="ico-txt" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.36 11a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.27 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.13 6.13l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +373 XX XXX XXX</a></li>
+          <li><a href="#"><svg class="ico-txt" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> contact@afa.md</a></li>
         </ul>
 
         </div>
@@ -543,7 +543,7 @@ function randeazaArticol(s) {
   } else if (s.foto) {
     mediaInterior = `<img src="${s.foto}" alt="${s.titlu}"/>`;
   } else {
-    mediaInterior = `<div class="media-placeholder" style="background:${catBg};">📰</div>`;
+    mediaInterior = `<div class="media-placeholder" style="background:${catBg};"><svg class="ico-txt" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></div>`;
   }
   const chenarMareHtml = `<div class="media-bloc">${mediaInterior}</div>`;
 
@@ -562,7 +562,7 @@ function randeazaArticol(s) {
     }).join('');
 
     galerieStripHtml = `
-      <div class="galerie-count-badge">📷 ${galerie.length} foto</div>
+      <div class="galerie-count-badge"><svg class="ico-txt" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> ${galerie.length} foto</div>
       <div class="galerie-strip">${items}</div>`;
   }
 
@@ -579,9 +579,9 @@ function randeazaArticol(s) {
     <h1 class="articol-titlu">${s.titlu}</h1>
 
     <div class="articol-meta">
-      <span>📅 <strong>${data}</strong></span>
-      <span>👁 <strong>${viz}</strong> vizualizări</span>
-      <span>✍️ <strong>${s.autor || 'Echipa AFA'}</strong></span>
+      <span><svg class="ico-txt" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <strong>${data}</strong></span>
+      <span><svg class="ico-txt" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> <strong>${viz}</strong> vizualizări</span>
+      <span><svg class="ico-txt" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> <strong>${s.autor || 'Echipa AFA'}</strong></span>
     </div>
 
     ${chenarMareHtml}
@@ -632,12 +632,12 @@ function randeazaSidebar(idCurent) {
 function cardMini(s) {
   const foto = s.foto
     ? `<img class="card-mini-img" src="${s.foto}" alt="" loading="lazy"/>`
-    : `<div class="card-mini-placeholder" style="background:${culoareBg(s.categorie)};">📰</div>`;
+    : `<div class="card-mini-placeholder" style="background:${culoareBg(s.categorie)};"><svg class="ico-txt" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></div>`;
   return `<a class="card-mini" href="stire.html?id=${s.id}">
     ${foto}
     <div class="card-mini-body">
       <div class="card-mini-titlu">${s.titlu}</div>
-      <div class="card-mini-data">📅 ${formataData(s.data)}</div>
+      <div class="card-mini-data"><svg class="ico-txt" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> ${formataData(s.data)}</div>
     </div>
   </a>`;
 }
@@ -724,7 +724,7 @@ function culoareBg(cat) {
 
 function eroareHtml(titlu, desc) {
   return `<div style="text-align:center;padding:80px 20px;">
-    <div style="font-size:48px;margin-bottom:16px;">😕</div>
+    <div style="font-size:48px;margin-bottom:16px;"><svg class="ico-txt" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 16s-1.5-2-4-2-4 2-4 2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
     <h2 style="color:#0a2342;margin-bottom:8px;">${titlu}</h2>
     <p style="color:#999;margin-bottom:24px;">${desc}</p>
     <a class="btn-inapoi" href="stiri.html">← Înapoi la știri</a>
