@@ -192,6 +192,7 @@ nav ul li a.activ {
 
 /* ── STAT CARDS ── */
 .hero-stats {
+  display: none !important;
   margin-top: 72px !important;
   gap: 16px !important;
 }
