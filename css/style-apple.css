@@ -370,6 +370,8 @@ nav ul li a.activ {
 .despre-imagine {
   background: linear-gradient(135deg, #060c1a 0%, #0a1e30 35%, #0d2d42 65%, #061420 100%) !important;
   border-radius: 24px !important;
+  height: auto !important;
+  overflow: visible !important;
 }
 
 .badge-flotant {
